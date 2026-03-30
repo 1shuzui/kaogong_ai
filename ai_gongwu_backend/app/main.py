@@ -1,5 +1,12 @@
 """FastAPI 应用启动总入口"""
-"""FastAPI 应用启动总入口"""
+import sys
+from pathlib import Path
+
+# 解决ModuleNotFoundError：将ai_gongwu_backend目录加入sys.path
+# 路径推导：main.py -> 上级是app -> 上级是ai_gongwu_backend
+BASE_DIR = Path(__file__).parent.parent
+sys.path.append(str(BASE_DIR))
+
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse # <-- 新增此行
 from app.api.endpoints import interview
