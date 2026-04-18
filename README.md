@@ -17,7 +17,7 @@
 
 ## 2. 当前状态
 
-截至 2026-04-11，项目已经完成这些核心能力：
+截至 2026-04-12，项目已经完成这些核心能力：
 
 1. FastAPI 接口可提供文本、音频、视频测评。
 2. 题库支持目录式多题加载，不再局限单题。
@@ -37,6 +37,8 @@
    - 真实 LLM 回归 / 标定脚本
    - `repeat` 多次采样取中位数能力
    - `writeback` 回写 `llmExpectedMin/Max` 能力
+9. 湖南自动导入样本已按 `analysis / organization / interpersonal / scene` 四类题型分别生成中低档模板。
+10. `--writeback` 已收紧为“只允许稳定题回写”，当前保留 3 道已确认稳定题的保护区间，其余题目继续走子集回归后再决定是否升级。
 
 当前仓库内除了手工题库外，还包含一套自动生成的湖南题库：
 
@@ -357,7 +359,7 @@ cd /home/quyu/ai_interview/ai_gongwu_backend
 说明：
 
 1. `--repeat 3` 用多次采样中位数抵消单次模型波动。
-2. `--writeback` 会把新的 `llmExpectedMin/Max` 回写到题目 JSON。
+2. `--writeback` 现在只会对“高 / 中 / 低三档都通过、排序正确、波动可接受”的稳定题目回写 `llmExpectedMin/Max`。
 3. 真正批量标定前，建议先用 `--question-id` 跑小子集。
 
 ---

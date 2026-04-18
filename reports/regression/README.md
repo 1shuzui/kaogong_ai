@@ -61,6 +61,7 @@ cd /home/quyu/ai_interview/ai_gongwu_backend
    允许 LLM 失败后回退到确定性评分
 5. `--writeback`
    把当前实测结果生成的新 `llmExpectedMin / llmExpectedMax` 回写题库 JSON
+   但只会回写“高 / 中 / 低三档都 PASS、排序正确、波动可接受”的稳定题目
 6. `--persist`
    是否把回归结果也落库
 
@@ -72,6 +73,7 @@ cd /home/quyu/ai_interview/ai_gongwu_backend
 2. 再执行 `scripts/run_regression.py`
 3. 子集通过后，执行 `scripts/run_llm_regression.py --repeat 3`
 4. 小范围题目稳定后，再执行 `scripts/run_llm_regression.py --repeat 3 --writeback`
+5. 如果你刚重新执行过 `scripts/import_hunan_question_bank.py`，记得补回那 3 道已确认稳定题的保护区间，避免被自动初始区间覆盖
 
 ## 4. 如何看 JSON 报表
 
@@ -99,3 +101,6 @@ LLM 回归和确定性回归都包含 `summary` 与 `rows`。
 1. 真正做标定时，默认使用 `--repeat 3`
 2. 回写前先用 `--question-id` 只跑子集
 3. 如果出现大面积 `ERROR`，先检查 `LLM_API_KEY`、模型配置和网络，而不是直接相信报表结论
+4. 如果控制台出现 `[SKIP WRITEBACK]`，说明该题本轮不稳定，区间不会被自动写入题库
+5. 当前一个代表性的通过报告是：
+   - [llm_regression_20260412_153653.md](/home/quyu/ai_interview/reports/regression/llm_regression_20260412_153653.md)
