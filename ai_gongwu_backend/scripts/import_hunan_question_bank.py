@@ -19,6 +19,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -69,6 +70,7 @@ HEADER_PATTERN = re.compile(r"题号：\s*([A-Z]{2,}(?:-[A-Z0-9]{2,})+)（([^）
 FIELD_PATTERNS = {
     "type": [
         r"题型[:：]\s*([^；。\n]+)",
+        r"题型信息[:：]\s*([^；。\n]+)",
         r"题型定位\s*([^。\n]+)",
     ],
     "province": [
@@ -100,16 +102,89 @@ FIELD_PATTERNS = {
 }
 SCORE_MARK_PATTERN = re.compile(r"（\d+(?:\.\d+)?分）")
 DEDUCTION_MARK_PATTERN = re.compile(r"扣\d+(?:\.\d+)?(?:[—-]\d+(?:\.\d+)?)?分")
+EXPLICIT_SCORED_ITEM_PATTERN = re.compile(
+    r"(?P<title>[^\s：:；;，,。、“”\"'（）()]{1,16})\s*(?P<score>（\d+(?:\.\d+)?分）)\s*(?P<colon>[：:]?)"
+)
+EXPLICIT_DIMENSION_TITLE_PATTERN = re.compile(
+    r"^(?P<title>[^\s：:；;，,。、“”\"'（）()]{1,16})\s*(?P<score>（\d+(?:\.\d+)?分）)\s*(?P<colon>[：:]?)"
+)
+LEADING_NOTE_PATTERN = re.compile(r"^\s*(?:（[^）]*评分[^）]*）\s*)+")
+TRAILING_TOTAL_SCORE_PATTERN = re.compile(r"(?:[；;。]\s*)?总分\s*\d+(?:\.\d+)?分.*$")
+TYPE_PREFIX_PATTERN = re.compile(r"^(?:题型信息|题型定位|题型)[:：]\s*")
+TYPE_SCORE_PATTERN = re.compile(r"赋分\s*\d+(?:\.\d+)?\s*分")
+TYPE_METADATA_PATTERN = re.compile(r"[，,]\s*(?:适用省份|适配岗位|满分)[:：].*$")
+TYPE_NOISE_MARKERS = (
+    "组合1：",
+    "组合2：",
+    "组合3：",
+    "组合4：",
+    "组合5：",
+    "选择理由：",
+    "核心沟通逻辑",
+    "题库说明",
+    "适配场景",
+    "AI智能评分",
+    "核心特色",
+    "使用规范",
+    "结构化数据",
+    "支持自动核算总分",
+    "支持AI智能采分",
+    "仪态分计入",
+)
+TAG_NOISE_MARKERS = (
+    "题库说明",
+    "适配场景",
+    "AI智能评分",
+    "核心特色",
+    "使用规范",
+    "结构化数据",
+    "支持自动核算总分",
+    "支持AI智能采分",
+    "仪态分计入",
+)
+TAG_HARD_STOP_MARKERS = TAG_NOISE_MARKERS + (
+    "MERGEFORMAT",
+    "Version",
+    "SimSun",
+    "GB2312",
+    "Regular",
+    "FZSJ-",
+    "Default Paragraph Font",
+    "默认段落字体",
+    "普通表格",
+    "正文文本",
+)
+TAG_STYLE_NOISE_TOKENS = {
+    "MERGEFORMAT",
+    "Version",
+    "SimSun",
+    "GB2312",
+    "Regular",
+    "Default Paragraph Font",
+    "默认段落字体",
+    "普通表格",
+    "正文文本",
+    "标题",
+}
+QUESTION_TRAILING_SCORE_PATTERN = re.compile(r"[（(]\s*(\d+(?:\.\d+)?)\s*分\s*[）)]\s*$")
+HEADER_ASSIGNED_SCORE_PATTERN = re.compile(r"赋分\s*(\d+(?:\.\d+)?)\s*分")
+SCORING_TOTAL_PATTERN = re.compile(r"总分\s*(\d+(?:\.\d+)?)\s*分")
+CALCULATED_FULL_SCORE_PATTERN = re.compile(
+    r"本题得分\s*[=＝]\s*得分标准得分\s*[（(]\s*(\d+(?:\.\d+)?)\s*分\s*[）)]"
+)
 
 if str(BACKEND_ROOT) not in sys.path:
     sys.path.insert(0, str(BACKEND_ROOT))
 
+from app.utils.encoding import ensure_utf8_stdio
 from app.models.schemas import QuestionDefinition
 from app.services.scoring.calculator import (
     apply_post_processing,
     build_deterministic_stage_two_payload,
     prepare_evidence_packet,
 )
+
+ensure_utf8_stdio()
 
 
 @dataclass
@@ -238,6 +313,83 @@ def extract_field(text: str, patterns: list[str]) -> str:
     return ""
 
 
+def extract_score_with_pattern(text: str, pattern: re.Pattern[str]) -> float | None:
+    """从文本里提取单个分值。"""
+
+    if not text:
+        return None
+    match = pattern.search(text)
+    if not match:
+        return None
+    return round(float(match.group(1)), 1)
+
+
+def choose_consensus_score(
+    candidates: list[tuple[str, float]],
+    *,
+    priority: tuple[str, ...],
+) -> float:
+    """在多个候选分值中优先选择一致来源，平票时按来源优先级决策。"""
+
+    grouped: dict[float, list[str]] = {}
+    for source, value in candidates:
+        grouped.setdefault(round(value, 1), []).append(source)
+
+    def source_rank(name: str) -> int:
+        try:
+            return priority.index(name)
+        except ValueError:
+            return len(priority)
+
+    score, _ = min(
+        grouped.items(),
+        key=lambda item: (
+            -len(item[1]),
+            min(source_rank(source) for source in item[1]),
+            item[0],
+        ),
+    )
+    return score
+
+
+def resolve_full_score(
+    *,
+    question_text: str,
+    header_description: str,
+    scoring_section_text: str,
+    ai_text: str,
+    dimensions: list[dict],
+) -> float:
+    """综合多个来源决定题目的真实满分，避免被结构化脏值覆盖。"""
+
+    explicit_candidates: list[tuple[str, float]] = []
+    for source, value in (
+        ("question_text", extract_score_with_pattern(question_text, QUESTION_TRAILING_SCORE_PATTERN)),
+        ("header_description", extract_score_with_pattern(header_description, HEADER_ASSIGNED_SCORE_PATTERN)),
+        ("scoring_total", extract_score_with_pattern(scoring_section_text, SCORING_TOTAL_PATTERN)),
+        ("calc_rule", extract_score_with_pattern(ai_text, CALCULATED_FULL_SCORE_PATTERN)),
+    ):
+        if value is not None:
+            explicit_candidates.append((source, value))
+
+    content_candidates = list(explicit_candidates)
+    dimension_total = round(sum(item["score"] for item in dimensions), 1) if dimensions else None
+    if dimension_total is not None:
+        content_candidates.append(("dimensions", dimension_total))
+
+    if content_candidates:
+        return choose_consensus_score(
+            content_candidates,
+            priority=("question_text", "header_description", "scoring_total", "calc_rule", "dimensions"),
+        )
+
+    configured_full_score = extract_field(ai_text, FIELD_PATTERNS["full_score"])
+    if configured_full_score:
+        return round(float(configured_full_score), 1)
+
+    return dimension_total or 0.0
+
+
 def split_list(text: str, *, include_whitespace: bool = False) -> list[str]:
     """把“关键词、标签”类字符串拆成列表。"""
 
@@ -260,17 +412,167 @@ def split_list(text: str, *, include_whitespace: bool = False) -> list[str]:
     return values
 
 
-def build_tags(text: str) -> list[str]:
-    """标签单独清洗，去掉跨块残留的“面试题库”尾巴。"""
+def is_tag_noise(tag: str) -> bool:
+    """过滤 Word 样式碎片、纯数字和明显异常标签。"""
 
-    tags = split_list(text, include_whitespace=True)
-    return [tag for tag in tags if tag and "面试题库" not in tag]
+    value = tag.strip()
+    if not value:
+        return True
+    if "面试题库" in value:
+        return True
+    if value in TAG_STYLE_NOISE_TOKENS:
+        return True
+    if re.fullmatch(r"\d+(?:\.\d+)?", value):
+        return True
+    if len(value) > 24:
+        return True
+    if re.search(r"(MERGEFORMAT|SIMSUN|GB2312|FZSJ-|DEFAULT PARAGRAPH FONT|STYLE|VERSION)", value, re.IGNORECASE):
+        return True
+    if re.fullmatch(r"[A-Za-z0-9_-]{2,}", value) and not re.search(r"[\u4e00-\u9fff]", value):
+        return True
+    return False
+
+
+def extract_type_tags(question_type: str) -> list[str]:
+    """从题型文本里提取一小组可读标签，供标签兜底重建。"""
+
+    if not question_type:
+        return []
+
+    base = re.sub(r"（[^）]*适配[^）]*）", "", question_type)
+    pieces = re.split(r"[·+（）()/\s]+", base)
+    values: list[str] = []
+    seen = set()
+    for piece in pieces:
+        value = piece.strip().rstrip("类")
+        if not value or is_tag_noise(value) or value in seen:
+            continue
+        values.append(value)
+        seen.add(value)
+    return values
+
+
+def build_fallback_tags(question_type: str, keyword_groups: list[list[str]] | None = None) -> list[str]:
+    """当检索标签为空或疑似污染时，用题型和关键词重建一组精简标签。"""
+
+    values: list[str] = []
+    seen = set()
+
+    for tag in extract_type_tags(question_type):
+        if tag not in seen:
+            values.append(tag)
+            seen.add(tag)
+
+    for group in keyword_groups or []:
+        for keyword in group:
+            value = keyword.strip()
+            if not value or is_tag_noise(value) or len(value) > 12 or value in seen:
+                continue
+            values.append(value)
+            seen.add(value)
+            if len(values) >= 8:
+                return values
+
+    return values[:8]
+
+
+def build_tags(
+    text: str,
+    *,
+    question_type: str = "",
+    keyword_groups: list[list[str]] | None = None,
+) -> list[str]:
+    """标签单独清洗，去掉跨块残留和 Word 样式垃圾。"""
+
+    text = cut_text_before_markers(text, TAG_HARD_STOP_MARKERS)
+    tags = [
+        tag
+        for tag in split_list(text, include_whitespace=True)
+        if tag and not is_tag_noise(tag)
+    ]
+    if not tags or len(tags) > 12:
+        fallback = build_fallback_tags(question_type, keyword_groups)
+        if fallback:
+            return fallback
+    return tags[:12]
+
+
+def cut_text_before_markers(text: str, markers: tuple[str, ...]) -> str:
+    """Trim noisy trailing metadata once any marker appears."""
+
+    indices = [text.find(marker) for marker in markers if marker in text]
+    if not indices:
+        return text
+    return text[: min(indices)]
+
+
+def clean_dimension_fragment(text: str, *, limit: int = 14) -> str:
+    """Normalize a short dimension label."""
+
+    value = re.sub(r"^[：:\s]+", "", text.strip())
+    value = re.split(r"[：:；;，,。]", value, maxsplit=1)[0]
+    value = re.sub(r"\s+", "", value)
+    return value[:limit]
+
+
+def is_explicit_dimension_title(title: str) -> bool:
+    """Decide whether a short scored-item prefix is a real dimension title."""
+
+    value = clean_dimension_fragment(title, limit=20)
+    if not value or len(value) > 12:
+        return False
+    if any(
+        marker in value
+        for marker in (
+            "如果",
+            "能够",
+            "体现",
+            "围绕",
+            "通过",
+            "针对",
+            "做到",
+            "主要",
+            "内容",
+        )
+    ):
+        return False
+    return True
+
+
+def normalize_scored_section_text(section_text: str) -> str:
+    """Collapse scored criteria text into one line for parsing."""
+
+    normalized = " ".join(section_text.split())
+    normalized = LEADING_NOTE_PATTERN.sub("", normalized)
+    normalized = TRAILING_TOTAL_SCORE_PATTERN.sub("", normalized)
+    return normalized.strip("；; ")
 
 
 def parse_scored_items(section_text: str) -> list[str]:
     """从“得分标准”中提取每条评分项。"""
 
-    normalized = " ".join(section_text.split())
+    normalized = normalize_scored_section_text(section_text)
+    if not normalized:
+        return []
+
+    explicit_matches = []
+    for match in EXPLICIT_SCORED_ITEM_PATTERN.finditer(normalized):
+        start = match.start("title")
+        prefix = normalized[:start].rstrip()
+        if prefix and prefix[-1] not in {"\uff1b", ";", "\u3002"}:
+            continue
+        if is_explicit_dimension_title(match.group("title")):
+            explicit_matches.append(match)
+    if len(explicit_matches) >= 2:
+        items: list[str] = []
+        for index, match in enumerate(explicit_matches):
+            start = match.start("title")
+            end = explicit_matches[index + 1].start("title") if index + 1 < len(explicit_matches) else len(normalized)
+            item = normalized[start:end].strip("；; ")
+            if item:
+                items.append(item)
+        return items
+
     cursor = 0
     items: list[str] = []
     for match in SCORE_MARK_PATTERN.finditer(normalized):
@@ -320,70 +622,161 @@ def extract_score(item_text: str) -> float:
     return float(match.group(1))
 
 
-def infer_dimension_name(criterion_text: str, used_names: set[str]) -> str:
-    """给评分项生成一个尽量短、可读的维度名。"""
+def split_criterion_title_and_body(criterion_text: str) -> tuple[str, str]:
+    """Split `标题（分值）：说明` style criteria into title/body."""
+
+    text = normalize_scored_section_text(criterion_text)
+    match = EXPLICIT_DIMENSION_TITLE_PATTERN.match(text)
+    if match and is_explicit_dimension_title(match.group("title")):
+        title = clean_dimension_fragment(match.group("title"))
+        body = text[match.end() :].lstrip("：:；; ").strip()
+        return title, body
+    return "", text
+
+
+def infer_dimension_base_name(title: str, criterion_text: str) -> str:
+    """Infer the base dimension name before duplicate disambiguation."""
+
+    if title:
+        return clean_dimension_fragment(title)
 
     text = criterion_text
-
     if "创新" in text or "创意" in text or "亮点" in text:
-        base_name = "创新思维"
-    elif "契合" in text or "完整逻辑" in text:
-        base_name = "整体契合度"
-    elif "宣传语" in text:
-        base_name = "宣传语创意"
-    elif "立意" in text:
-        base_name = "立意深度"
-    elif "出发点" in text:
-        base_name = "出发点适配"
-    elif "词语" in text:
-        base_name = "词语运用"
-    elif "价值导向" in text or ("价值" in text and "担当" in text):
-        base_name = "价值导向"
-    elif "适老化" in text:
-        base_name = "适老化设计"
-    elif "安全保障" in text or ("保障" in text and "安全" in text):
-        base_name = "安全保障"
-    elif "沟通" in text or "人际" in text:
-        base_name = "沟通化解"
-    elif "统筹" in text or "交接" in text:
-        base_name = "工作统筹"
-    elif "语言" in text or "表达" in text or "感染力" in text:
-        base_name = "语言表达"
-    elif "措施" in text or "举措" in text or "路径" in text or "建议" in text:
-        base_name = "对策措施"
-    elif any(marker in text for marker in ("分析", "解读", "内涵", "危害", "根源", "理解", "题干")):
-        base_name = "分析理解"
-    elif "案例选取" in text or text.startswith("案例"):
-        base_name = "案例适配"
-    elif "场景" in text or "现场模拟" in text or "宣讲" in text:
-        base_name = "场景适配"
-    elif "流程" in text or "实施" in text or "筹备" in text:
-        base_name = "流程执行"
-    elif "方案" in text or "活动" in text:
-        base_name = "方案设计"
-    elif "岗位" in text or "适配" in text or "省情" in text:
-        base_name = "岗位适配"
-    else:
-        base_name = text.split("，", 1)[0].split("（", 1)[0].strip()[:12] or "评分维度"
+        return "创新思维"
+    if "宣传语" in text or "标语" in text or "口号" in text:
+        return "宣传语创意"
+    if "出发点" in text:
+        return "出发点适配"
+    if "词语" in text or "串词" in text:
+        return "词语运用"
+    if "价值导向" in text or ("价值" in text and "担当" in text):
+        return "价值导向"
+    if "两个活动方案" in text or "互不重复" in text:
+        return "方案设计"
+    if "适老化" in text:
+        return "适老化设计"
+    if "安全保障" in text or ("保障" in text and "安全" in text):
+        return "安全保障"
+    if any(marker in text for marker in ("流程", "实施", "筹备", "步骤", "排查", "长效机制", "跟进")):
+        return "流程执行"
+    if "方案" in text or "活动设计" in text:
+        return "方案设计"
+    if "立意" in text or "主题鲜明" in text:
+        return "立意深度"
+    if "语言" in text or "表达" in text or "感染力" in text:
+        return "语言表达"
+    if any(marker in text for marker in ("分析", "解读", "内涵", "实践价值", "政治站位", "意义", "影响", "根源", "理解")):
+        return "分析理解"
+    if "岗位" in text or "省情" in text or "履职" in text or "基层实际" in text or "结合实际" in text:
+        return "岗位适配"
+    if any(marker in text for marker in ("沟通", "劝说", "安抚", "回应顾虑", "协调")):
+        return "沟通化解"
+    if "统筹" in text or "交接" in text:
+        return "工作统筹"
+    if "案例选取" in text or text.startswith("案例"):
+        return "案例适配"
+    if "场景" in text or "现场模拟" in text or "宣讲" in text:
+        return "场景适配"
+    if "契合" in text or "完整逻辑" in text:
+        return "整体契合度"
+    if "措施" in text or "举措" in text or "路径" in text or "建议" in text or "办法" in text:
+        return "对策措施"
+    return clean_dimension_fragment(text.split("（", 1)[0].split("，", 1)[0]) or "评分维度"
 
-    candidate = base_name
-    suffix = 2
-    while candidate in used_names:
-        candidate = f"{base_name}{suffix}"
-        suffix += 1
-    used_names.add(candidate)
-    return candidate
+
+def infer_dimension_direction_hint(base_name: str, title: str, criterion_text: str) -> str:
+    """Try to turn a duplicate base name into a readable direction suffix."""
+
+    cleaned_title = clean_dimension_fragment(title)
+    if cleaned_title and cleaned_title != base_name:
+        return cleaned_title
+
+    text = criterion_text
+    if base_name == "分析理解":
+        mappings = (
+            (("政治站位", "大局", "方向"), "政治站位"),
+            (("内涵", "解读", "阐释"), "内涵解读"),
+            (("结合实际", "实践", "落到", "长沙", "本地", "岗位"), "结合实际"),
+            (("风险", "问题", "偏差", "短板"), "问题风险"),
+        )
+    elif base_name == "对策措施":
+        mappings = (
+            (("履职", "岗位", "基层", "省情", "结合实际"), "履职路径"),
+            (("措施", "举措", "办法", "推进", "落实", "抓手"), "具体举措"),
+            (("问题", "短板", "堵点"), "问题导向"),
+        )
+    elif base_name == "流程执行":
+        mappings = (
+            (("筹备", "准备", "摸排", "通知", "前期"), "前期准备"),
+            (("实施", "现场", "组织", "开展", "排查"), "现场实施"),
+            (("总结", "反馈", "跟进", "长效", "后续"), "后续跟进"),
+        )
+    elif base_name == "适老化设计":
+        mappings = (
+            (("安全", "保障", "风险"), "安全保障"),
+            (("原则", "定位", "导向"), "服务原则"),
+            (("设计", "适老", "方便", "便民", "无障碍"), "方案设计"),
+            (("服务", "细节", "体验"), "服务细节"),
+        )
+    elif base_name == "沟通化解":
+        mappings = (
+            (("顾虑", "担心", "情绪", "理解"), "顾虑回应"),
+            (("政策", "意义", "价值", "引导"), "价值传递"),
+            (("逻辑", "算账", "说明", "解释"), "沟通逻辑"),
+            (("配合", "方案", "办理"), "配合方式"),
+        )
+    elif base_name == "词语运用":
+        mappings = (
+            (("自然", "融入", "贴切"), "融合表达"),
+            (("价值", "担当", "导向"), "价值导向"),
+            (("岗位", "省情", "基层"), "岗位适配"),
+        )
+    elif base_name == "语言表达":
+        mappings = (
+            (("庄重", "规范", "准确", "流畅"), "表达规范"),
+            (("感染", "情感", "打动"), "现场感染"),
+            (("口语", "自然", "接地气"), "口语转化"),
+        )
+    else:
+        mappings = ()
+
+    for markers, label in mappings:
+        if any(marker in text for marker in markers):
+            return label
+    return ""
 
 
 def build_dimensions(scoring_criteria: list[str]) -> list[dict]:
     """从评分标准构造 schema 里的 dimensions 字段。"""
 
-    used_names: set[str] = set()
-    dimensions = []
+    parsed_items: list[tuple[str, str, str, str]] = []
     for item in scoring_criteria:
+        title, body = split_criterion_title_and_body(item)
+        base_name = infer_dimension_base_name(title, body or item)
+        parsed_items.append((item, title, body, base_name))
+
+    base_counts = Counter(base_name for _, _, _, base_name in parsed_items)
+    current_counts: Counter[str] = Counter()
+    used_names: set[str] = set()
+    dimensions: list[dict[str, Any]] = []
+    for item, title, body, base_name in parsed_items:
+        current_counts[base_name] += 1
+        if base_counts[base_name] == 1:
+            name = base_name
+        else:
+            hint = infer_dimension_direction_hint(base_name, title, body or item)
+            if hint:
+                name = f"{base_name}（{hint}）"
+            else:
+                name = f"{base_name}（方向{current_counts[base_name]}）"
+
+        while name in used_names:
+            current_counts[base_name] += 1
+            name = f"{base_name}（方向{current_counts[base_name]}）"
+        used_names.add(name)
         dimensions.append(
             {
-                "name": infer_dimension_name(item, used_names),
+                "name": name,
                 "score": extract_score(item),
             }
         )
@@ -692,7 +1085,23 @@ def strip_role_conclusion(text: str, mode: str) -> str:
 def build_low_generic_opener(question_data: dict[str, Any]) -> str:
     """给低档样本换一个更像真实临场表达的开头。"""
 
+    family = detect_template_family(question_data)
     question_text = question_data.get("question", "")
+    topic = infer_topic_phrase(question_data, generic=False)
+    target_group = infer_target_group(question_data, generic=False)
+    role_focus = infer_role_focus(question_data)
+    if family == "scene" and is_word_expression_scene(question_data):
+        terms = extract_word_expression_terms(question_data)
+        keyword_text = "、".join(terms[:3]) or "、".join(ordered_keywords(question_data, generic=False)[:2]) or topic
+        return f"我会先把{keyword_text}这几个词串成一句完整的话，再往{role_focus}里的基本做法上带。"
+    if family == "scene" and is_speech_scene(question_data):
+        return f"各位考官，我想围绕{topic}这个主题简单谈几句。"
+    if family == "organization" and is_slogan_organization_question(question_data):
+        return f"我会先给一句围绕{topic}的宣传口径，再简单补一句为什么这么说。"
+    if family == "organization":
+        return f"我觉得这项工作可以先围着{target_group}和{topic}把基本安排理顺，再看怎么往后推进。"
+    if family == "analysis":
+        return f"我觉得{topic}这个事不能只看表面，还是要回到{role_focus}怎么落地来看。"
     if any(marker in question_text for marker in ("活动", "方案", "组织", "社区")):
         return "我觉得这个活动可以先从需求摸排、现场教学和后续答疑几个方面简单考虑。"
     if any(marker in question_text for marker in ("看法", "理解", "怎么看", "谈谈")):
@@ -852,28 +1261,83 @@ def select_sentence_indices(sentences: list[str], strategy: str, count: int) -> 
     return sorted(indices[:count])
 
 
-def generic_bridge_sentences(question_data: dict[str, Any], mode: str) -> list[str]:
-    """长度不足时补几句泛化过的桥接语，让样本更像真实答题文本。"""
+def is_slogan_organization_question(question_data: dict[str, Any]) -> bool:
+    """Whether the organization question is really asking for a slogan or theme line."""
 
+    haystack = build_question_haystack(question_data)
+    return any(marker in haystack for marker in ("宣传语", "标语", "口号", "主题句"))
+
+
+def is_word_expression_scene(question_data: dict[str, Any]) -> bool:
+    """Whether the scene question is actually a word-expression / 串词表达 prompt."""
+
+    haystack = build_question_haystack(question_data)
+    return any(marker in haystack for marker in ("串词表达", "串词", "词语"))
+
+
+def is_speech_scene(question_data: dict[str, Any]) -> bool:
+    """Whether the scene question is actually a short speech / 演讲表达 prompt."""
+
+    question_text = question_data.get("question", "")
+    question_type = question_data.get("type", "")
+    return "演讲" in question_type or ("演讲" in question_text and "发表" in question_text)
+
+
+def generic_bridge_sentences(question_data: dict[str, Any], mode: str) -> list[str]:
+    """长度不足时补几句低信息密度的桥接语，但按题型家族区分。"""
+
+    family = detect_template_family(question_data)
     province = question_data.get("province", "当地") or "当地"
-    if mode == "mid":
+    topic = infer_topic_phrase(question_data, generic=False)
+    use_generic_target = mode == "low" and family not in {"organization", "interpersonal", "scene"}
+    target_group = infer_target_group(question_data, generic=use_generic_target)
+    role_focus = infer_role_focus(question_data)
+    if family == "organization":
         bridges = [
-            f"整体看，这项工作方向是对的，但真正落地还要结合{province}实际，不能只停留在表态层面。",
-            "如果只讲原则、不讲重点，或者只看局部、不看整体，后续执行效果就容易打折扣。",
-            "所以作答时既要看到积极意义，也要把问题和短板说透，再把改进方向交代清楚。",
-            "另外还要把原则判断和具体做法区分开，避免前后都在重复同一个意思。",
-            "如果只是材料罗列得多，但没有把重点拎出来，整体表达也还是会显得发散。",
-            "从答题思路看，关键还是先把主判断说清，再补充原因和大方向上的措施。",
+            f"后面真正落地时，还是要围着{target_group}的接受度来调节节奏，不能只把流程写满。",
+            "前期准备、现场推进和后续反馈最好能连成一条线，这样活动才不容易前紧后松。",
+            "如果对象感不强、通知发动不到位，现场环节再完整，最后效果也会打折。",
+        ]
+    elif family == "scene":
+        if is_word_expression_scene(question_data):
+            terms = extract_word_expression_terms(question_data)
+            term_text = "、".join(terms[:2]) if terms else "这些词语"
+            bridges = [
+                f"这类表达题关键还是要让{term_text}都围着同一个主题转，别变成单纯堆词。",
+                f"最后最好再回到{role_focus}怎么做，这样整段话才不至于只停在表态层面。",
+                "只要主题顺、表达自然、落点明确，整体效果就会比机械拼接好很多。",
+            ]
+        elif is_speech_scene(question_data):
+            bridges = [
+                f"演讲里还是要把{topic}和{province}实际变化连起来，不然容易只剩口号。",
+                "哪怕只举一个乡风变化、群众感受或者基层新气象，整段话都会更有画面。",
+                f"最后再把态度和{role_focus}里的基本责任收一下，表达会更完整。",
+            ]
+        else:
+            bridges = [
+                f"现场沟通时还是要先回应{target_group}最现实的顾虑，再谈怎么配合，不然容易越说越空。",
+                "能当场说明白的先说明白，暂时解决不了的也要把后续联系和跟进方式交代出来。",
+                "只要对象听得懂、愿意继续配合，这段表达就算真正落到了沟通目的上。",
+            ]
+    elif family == "interpersonal":
+        bridges = [
+            "这类沟通不能一上来就压要求，先把关系稳住、把情绪接住更重要。",
+            "把对方最关心的点解释清楚以后，再谈后续怎么处理，沟通才有继续推进的空间。",
+            "哪怕当场不能完全解决，也要留下持续跟进的口子，别让谈话停在情绪上。",
         ]
     else:
-        bridges = [
-            "总体看，这件事不能只看表面，还是得放到实际工作里去考虑。",
-            "我觉得方向要把握住，但推进的时候也不能太着急，不然容易顾此失彼。",
-            "如果前面考虑得不细，后续执行起来还可能冒出新的问题。",
-            "另外就是回答时不能什么都想说，不然重点反而容易散掉。",
-            "有些内容看着很具体，但真正落到执行层面，还得再结合实际条件慢慢细化。",
-            "所以我觉得先把基本判断说稳，再补几条主要想法，会比一上来堆很多细节更合适。",
-        ]
+        if mode == "mid":
+            bridges = [
+                f"整体看，这项工作方向是对的，但真正落地还要结合{province}实际和{role_focus}场景，不能只停留在表态层面。",
+                "如果只讲原则、不讲重点，或者只看局部、不看整体，后续执行效果就容易打折扣。",
+                "所以作答时既要看到积极意义，也要把问题和短板说透，再把岗位上的落点交代清楚。",
+            ]
+        else:
+            bridges = [
+                f"总体看，{topic if topic != '这项工作' else '这件事'}不能只看表态，还是得放到{province}实际里去考虑。",
+                f"我觉得方向可以先把握住，但最后还是要回到{role_focus}怎么落地这个问题上。",
+                "哪怕答得简单一点，也最好先讲个基本判断，再点一两个问题和基本做法。",
+            ]
     return [clean_generated_sample_text(sentence) for sentence in bridges]
 
 
@@ -881,17 +1345,119 @@ def extend_variant_length(text: str, question_data: dict[str, Any], mode: str, m
     """如果候选文本过短，就补几句低信息密度的桥接语。"""
 
     extended = text
+    family = detect_template_family(question_data)
     bridges = generic_bridge_sentences(question_data, mode)
     if not bridges:
         return extended
 
-    max_rounds = 2 if mode == "low" else 1
+    if family == "scene" and is_word_expression_scene(question_data) and mode == "low":
+        max_rounds = 1
+    else:
+        max_rounds = 2 if mode == "low" else 1
+    used_sentences = {
+        clean_generated_sample_text(sentence)
+        for sentence in split_answer_sentences(extended)
+    }
     for index in range(len(bridges) * max_rounds):
         if effective_length(extended) >= minimum_length:
             break
         bridge_sentence = bridges[index % len(bridges)]
+        if bridge_sentence in used_sentences:
+            continue
         extended = clean_generated_sample_text(f"{extended} {bridge_sentence}")
+        used_sentences.add(bridge_sentence)
     return extended
+
+
+def count_repeated_sentences(text: str) -> int:
+    """统计样本中重复句子的数量，避免桥接句循环拼接。"""
+
+    sentences = [clean_generated_sample_text(sentence) for sentence in split_answer_sentences(text)]
+    counts = Counter(sentences)
+    return sum(count - 1 for count in counts.values() if count > 1)
+
+
+def count_bridge_sentence_hits(text: str, question_data: dict[str, Any], mode: str) -> int:
+    """统计样本里命中的通用桥接句数量。"""
+
+    bridge_set = {
+        clean_generated_sample_text(sentence)
+        for sentence in generic_bridge_sentences(question_data, mode)
+    }
+    sentences = {
+        clean_generated_sample_text(sentence)
+        for sentence in split_answer_sentences(text)
+    }
+    return sum(1 for sentence in sentences if sentence in bridge_set)
+
+
+def sample_focus_hits(text: str, question_data: dict[str, Any]) -> int:
+    """粗略统计样本是否保留了题目自身的主题、对象或岗位语境。"""
+
+    markers = [
+        infer_topic_phrase(question_data, generic=False),
+        infer_target_group(question_data, generic=False),
+        infer_role_focus(question_data),
+    ] + ordered_keywords(question_data, generic=False)[:2]
+    hits = 0
+    seen = set()
+    for marker in markers:
+        if not marker or marker in seen or marker in {"这项工作", "参与对象", "具体工作落实"}:
+            continue
+        seen.add(marker)
+        if marker in text:
+            hits += 1
+    return hits
+
+
+def placeholder_content_penalty(text: str) -> int:
+    """识别“相关内容”“演讲完毕”这类占位式空话。"""
+
+    penalty = max(0, text.count("相关内容") - 1) * 2
+    if "演讲的题目是《相关内容" in text:
+        penalty += 6
+    if "我的演讲完毕，谢谢大家" in text and text.count("相关内容") >= 2:
+        penalty += 4
+    if "各位考官" in text and "大家好" in text and text.count("相关内容") >= 2:
+        penalty += 3
+    return penalty
+
+
+def sample_quality_penalty(text: str, question_data: dict[str, Any], mode: str) -> int:
+    """给桥接过重、主题过空的候选样本打惩罚分。"""
+
+    repeated = count_repeated_sentences(text)
+    bridge_hits = count_bridge_sentence_hits(text, question_data, mode)
+    focus_hits = sample_focus_hits(text, question_data)
+    penalty = repeated * 8 + placeholder_content_penalty(text) + bridge_hits * 2
+    if bridge_hits >= 2 and focus_hits <= 1:
+        penalty += 4
+    if mode == "mid" and bridge_hits >= 2:
+        penalty += 2
+    return penalty
+
+
+def sample_strategy_penalty(strategy: str, mode: str) -> int:
+    """对容易生成空泛样本的策略适度降权。"""
+
+    if strategy.startswith("template_"):
+        return 0
+    normalized = strategy.removeprefix("fallback_")
+    if mode == "low" and normalized in {"leading", "dialogue_focus"}:
+        return 3
+    if mode == "mid" and normalized == "leading":
+        return 2
+    return 1
+
+
+def should_skip_candidate(text: str, question_data: dict[str, Any], mode: str) -> bool:
+    """直接拦掉明显坏掉的占位样本或桥接循环样本。"""
+
+    if count_repeated_sentences(text) > 0:
+        return True
+    if placeholder_content_penalty(text) >= 6:
+        return True
+    return False
 
 
 def sample_detail_score(text: str) -> float:
@@ -932,6 +1498,27 @@ def detect_template_family(question_data: dict[str, Any]) -> str | None:
 
     haystack = build_question_haystack(question_data)
     question_text = question_data.get("question", "")
+    question_type = question_data.get("type", "")
+    primary_type = re.split(r"[·（(]", question_type, maxsplit=1)[0]
+    explicit_scene_markers = ("请现场模拟", "请你现场模拟", "请现场处置", "模拟宣讲", "现场宣讲", "发表一段演讲")
+
+    if any(marker in question_text for marker in explicit_scene_markers):
+        return "scene"
+    if "现场模拟" in question_type and any(
+        marker in question_text for marker in ("宣讲", "发言", "怎么说", "如何说", "串成一段话")
+    ):
+        return "scene"
+    if "演讲" in primary_type or ("演讲" in question_text and "发表" in question_text):
+        return "scene"
+
+    if "综合分析" in primary_type or "价值判断" in primary_type or "政策理解" in primary_type:
+        return "analysis"
+    if "计划组织" in primary_type:
+        return "organization"
+    if "人际沟通" in primary_type:
+        return "interpersonal"
+    if "现场模拟" in primary_type or "串词表达" in primary_type:
+        return "scene"
 
     # 先抓“明确要求现场表达”的题，避免和普通沟通/劝说题混淆。
     if any(
@@ -975,11 +1562,47 @@ def ordered_keywords(question_data: dict[str, Any], *, generic: bool = False) ->
     return values
 
 
+def extract_word_expression_terms(question_data: dict[str, Any]) -> list[str]:
+    """尽量从串词题题干里提取可直接落笔的原始词语。"""
+
+    question_text = question_data.get("question", "")
+    candidates = re.findall(r"[“\"]([^”\"]{2,120})[”\"]", question_text)
+    split_pattern = re.compile(r"[、，,；;\s]+")
+    noise_markers = ("任意选择", "串成一段话", "下列", "七组词语", "词语")
+    for candidate in sorted(candidates, key=len, reverse=True):
+        text = re.sub(r"^.*?[：:]", "", candidate).strip()
+        pieces: list[str] = []
+        seen = set()
+        for piece in split_pattern.split(text):
+            value = piece.strip("“”\"'()（）[]【】 ")
+            if (
+                not value
+                or value in seen
+                or any(marker in value for marker in noise_markers)
+                or len(value) > 8
+            ):
+                continue
+            pieces.append(value)
+            seen.add(value)
+        if len(pieces) >= 3:
+            return pieces
+
+    fallback = [
+        keyword
+        for keyword in ordered_keywords(question_data, generic=False)
+        if keyword and keyword != "所选词语" and len(keyword) <= 8
+    ]
+    return fallback[:3]
+
+
 def infer_role_focus(question_data: dict[str, Any]) -> str:
     """粗略提炼题目对应的岗位/工作语境。"""
 
     haystack = build_question_haystack(question_data)
     mappings = (
+        ("国家公务员", "公职岗位履职"),
+        ("公务员", "公职岗位履职"),
+        ("公职", "公职岗位履职"),
         ("税务", "税务工作"),
         ("特警", "特警岗位履职"),
         ("公安", "执法岗位履职"),
@@ -1009,6 +1632,7 @@ def infer_target_group(question_data: dict[str, Any], *, generic: bool = False) 
         ("餐饮经营者", "餐饮经营者"),
         ("经营者", "经营者"),
         ("老板", "商户和老板"),
+        ("社区", "社区居民"),
         ("服刑人员", "服刑人员"),
         ("罪犯", "服刑人员"),
         ("犯人", "服刑人员"),
@@ -1073,41 +1697,58 @@ def infer_topic_phrase(question_data: dict[str, Any], *, generic: bool = False) 
     return "相关内容" if generic else "这项工作"
 
 
+def clean_question_type(raw_type: str, header_description: str) -> str:
+    """Sanitize polluted type text and fall back to header description when needed."""
+
+    for candidate in (raw_type or "", header_description or ""):
+        text = candidate.splitlines()[0].strip()
+        text = TYPE_PREFIX_PATTERN.sub("", text)
+        text = TYPE_SCORE_PATTERN.sub("", text)
+        text = cut_text_before_markers(text, TYPE_NOISE_MARKERS)
+        text = TYPE_METADATA_PATTERN.sub("", text)
+        text = " ".join(text.split()).strip("；;，,。 ")
+        if text and not any(marker in text for marker in TYPE_NOISE_MARKERS):
+            return text
+    fallback = " ".join((header_description or raw_type or "").split())
+    fallback = TYPE_PREFIX_PATTERN.sub("", fallback)
+    fallback = TYPE_METADATA_PATTERN.sub("", fallback)
+    return fallback.strip("；;，,。 ")
+
+
 def build_analysis_template_texts(question_data: dict[str, Any], mode: str) -> list[tuple[str, str, bool]]:
     """为综合分析/价值判断题生成中低档模板文本。"""
 
     topic = infer_topic_phrase(question_data, generic=False)
     topic2 = ordered_keywords(question_data, generic=False)[1:2]
     topic2_text = topic2[0] if topic2 else "现实需求"
-    aux_topic = infer_topic_phrase(question_data, generic=mode == "low")
+    aux_topic = infer_topic_phrase(question_data, generic=False)
+    province = question_data.get("province", "当地") or "当地"
+    role_focus = infer_role_focus(question_data)
     if mode == "mid":
         return [
             (
                 (
-                    f"我认为这类题不能只讲一个态度，还是要把基本判断和现实问题一起说。 "
-                    f"从正面看，{topic}和{topic2_text}说明相关工作确实有一定现实背景。 "
-                    f"但如果推进时考虑不够细，{aux_topic}也可能出现表面化、简单化的问题，最后影响效果。 "
-                    "所以回答时至少要把方向、问题和大致改进思路说明白，不能只停留在空泛表态上。 "
-                    "后面更重要的是先把情况摸清，再针对主要问题做一些调整，避免一上来铺得太开。"
+                    f"我觉得{topic}这个问题方向上是成立的，它背后既有现实需要，也和{province}当前工作要求有关。 "
+                    f"但如果只看到表面的积极意义，忽视{topic2_text}、基层承接能力和执行节奏，后面就容易出现推进变形、群众感受不强的问题。 "
+                    f"站在{role_focus}角度，回答时既要把基本判断讲清，也要把风险和短板点出来，最后落到摸清情况、结合岗位推进落实上。"
                 ),
                 "medium",
                 False,
             ),
             (
                 (
-                    f"我觉得这个问题既不能全盘否定，也不能简单肯定。 "
-                    f"{topic}本身未必有问题，关键还是要看后面怎么落。 "
-                    f"如果前期判断太满、后面推进太快，{aux_topic}就容易流于形式，最后看起来做了不少，实际效果一般。 "
-                    "所以后面还是要把问题摸准，再把重点环节理顺，至少别让工作停在口号层面。"
+                    f"这类题我一般会先作一个基本判断，就是{topic}不能简单否定，但也不能只停留在肯定层面。 "
+                    f"如果后续落实时对{aux_topic}考虑不够细，对象差异、现实约束和执行重点没有分开讲，工作就容易看着热闹、实际一般。 "
+                    f"所以更稳妥的答法，是先亮明态度，再指出问题风险，最后补上{role_focus}中怎么分层推进、怎么把措施落到位。"
                 ),
                 "medium",
                 False,
             ),
             (
                 (
-                    f"这类题我会先看它为什么做，再看它容易出什么问题。 "
-                    f"如果只讲{topic}的积极意义，回答会偏空；如果只讲问题，不讲基本方向，也不够完整。 "
-                    f"所以更稳妥的说法，是先承认{topic}有现实考虑，再指出{aux_topic}在落实中可能会有偏差，最后补一句原则性的改进思路。"
+                    f"在我看，{topic}不是一句口号题，关键在于既要看到它为什么要做，也要看到做偏了会带来什么问题。 "
+                    f"如果只讲意义，不讲{topic2_text}和现实风险，答案会发空；如果只挑毛病，不讲基本方向，也容易失衡。 "
+                    f"所以比较合适的结构，就是先作判断，再讲风险，最后回到{role_focus}需要抓住哪些措施落点。"
                 ),
                 "heavy",
                 False,
@@ -1117,33 +1758,29 @@ def build_analysis_template_texts(question_data: dict[str, Any], mode: str) -> l
     return [
         (
             (
-                "我觉得这个问题不能只看一面，还是要结合实际分开来看。 "
-                f"方向上未必有问题，但真正难的是后面能不能把{aux_topic}落到实处。 "
-                f"如果前面考虑得不够细，执行中就可能出现偏差，最后让工作效果打折。 "
-                "所以后续可以先把基本情况摸一摸，再看怎么往前推。 "
-                "总的看，我会先把主要问题和大方向说清楚。"
+                f"我觉得{topic}这个事不能只喊口号，关键还是看后面能不能落到{role_focus}里。 "
+                f"方向上可以认同，但如果{aux_topic}考虑不细，执行中还是容易出偏差。 "
+                "所以我会先把基本判断说出来，再补一句风险，最后简单说说怎么推进。"
             ),
-            "heavy",
+            "medium",
             True,
         ),
         (
             (
-                "我觉得这件事还是要看实际效果。 "
-                f"有些工作从出发点看是好的，但如果推进得太急，{aux_topic}就容易变成表面动作。 "
-                "所以更重要的还是结合具体情况一步一步来，把重点问题先拎出来。 "
-                "回答时把判断、问题和基本做法说清楚就行。"
+                f"我觉得这类题还是要看实际效果，不能只看出发点。 "
+                f"有些工作本意是好的，但如果推进太快，{aux_topic}就容易变成表面动作。 "
+                f"后面还是要结合{province}实际，把问题和{role_focus}里的基本做法交代清楚。"
             ),
-            "heavy",
+            "medium",
             True,
         ),
         (
             (
-                "在我看，这类问题最怕的不是方向有偏差，而是说得很多、落得不够。 "
-                f"如果只讲态度、不讲条件，{aux_topic}最后就可能没有真正起作用。 "
-                "后面还是要把情况摸清，再看怎么处理。 "
-                "我觉得这样回答会更稳一些。"
+                f"在我看，这类题最怕的不是没有态度，而是只讲态度、不讲{role_focus}怎么落。 "
+                f"如果前面把{topic}说得很满，后面又不交代风险和措施，答案就会比较空。 "
+                "所以还是先讲判断，再讲问题，最后补一个岗位落点会更稳。"
             ),
-            "heavy",
+            "medium",
             True,
         ),
     ]
@@ -1152,36 +1789,97 @@ def build_analysis_template_texts(question_data: dict[str, Any], mode: str) -> l
 def build_organization_template_texts(question_data: dict[str, Any], mode: str) -> list[tuple[str, str, bool]]:
     """为计划组织题生成中低档模板文本。"""
 
-    target_group = infer_target_group(question_data, generic=mode == "low")
-    topic = infer_topic_phrase(question_data, generic=mode == "low")
+    slogan_question = is_slogan_organization_question(question_data)
+    target_group = infer_target_group(question_data, generic=False)
+    topic = infer_topic_phrase(question_data, generic=False)
+    slogan_line = f"比如可以概括成“围绕{topic}，把实事办细、把服务做实”。"
+    if slogan_question:
+        if mode == "mid":
+            return [
+                (
+                    (
+                        f"这类题我不会先铺活动流程，而是先把宣传口径立住。 {slogan_line} "
+                        f"这句话至少要让{target_group}一听就知道主题是什么、导向是什么，不是为了凑词。 "
+                        f"后面我再补一句它为什么围绕{topic}这样设计，以及这句口径准备服务什么工作场景。 "
+                        "立意上再点到以学促干、凝聚团队和服务履职，宣传语才不只是好听。"
+                    ),
+                    "medium",
+                    False,
+                ),
+                (
+                    (
+                        f"如果让我现场作答，我会先给一句主题鲜明、比较顺口的宣传语。 {slogan_line} "
+                        f"然后简单解释这句话为什么贴着{topic}走、为什么能让{target_group}记得住。 "
+                        "立意上我会把它落到以学促干、团队共进和岗位赋能上，出发点就是让读书分享会既有书香味，也能和单位实际工作接上。 "
+                        "这样至少保留了主题句、对象感和基本立意，不会答成流程方案。"
+                    ),
+                    "medium",
+                    False,
+                ),
+                (
+                    (
+                        f"宣传创意类题关键不是环节多，而是口径准、主题明。 {slogan_line} "
+                        f"我会再补一句它对应的工作导向，让{target_group}知道这不是空喊，而是服务实际任务。 "
+                        "再把出发点落到读书分享会为什么要为履职增能、为团队聚气上，这句宣传语就更站得住。"
+                    ),
+                    "heavy",
+                    False,
+                ),
+            ]
+
+        return [
+            (
+                (
+                    f"这类题我会先给一句宣传口径。 {slogan_line} "
+                    f"至少先把主题和{target_group}听感对上，再简单解释一句为什么这么说。"
+                ),
+                "medium",
+                True,
+            ),
+            (
+                (
+                    f"我觉得宣传语题不用先讲流程，先把话说准更重要。 {slogan_line} "
+                    f"后面再补一句它围绕{topic}、服务什么导向，就基本够用了。"
+                ),
+                "medium",
+                True,
+            ),
+            (
+                (
+                    f"如果是宣传创意题，我会先亮一句主题句。 {slogan_line} "
+                    "先让口径立住，再补一点立意说明。"
+                ),
+                "medium",
+                True,
+            ),
+        ]
+
     if mode == "mid":
         return [
             (
                 (
-                    "如果让我来做这项工作，我会先把基本安排理顺，再把现场环节抓起来，最后补一个简单跟进。 "
-                    f"前面先看看{target_group}比较关心什么，把通知、时间和人员分工先定下来。 "
-                    f"中间围绕{topic}把重点内容讲清楚，再留一点互动和答疑，确保大家能听懂。 "
-                    "结束后把反馈收一收，看看还有哪些问题需要后面继续补。 "
-                    "整体上不追求铺得很大，但流程不能乱。"
+                    f"如果让我组织这项工作，我会先把对象、主题和基本时间场地定下来，再围绕{topic}把通知发动、现场推进和后续反馈串起来。 "
+                    f"前期重点是摸清{target_group}最关心什么，把人员分工、物资准备和现场节奏先理顺。 "
+                    f"中间把核心步骤说清楚，让{target_group}知道先做什么、怎么配合、遇到问题找谁。 "
+                    "结束后再把反馈收回来，作为后续优化和跟进的依据。"
                 ),
                 "medium",
                 False,
             ),
             (
                 (
-                    f"这类活动我会先把对象、场地和时间这些基础项定下来。 "
-                    f"现场主要围绕{topic}做说明和互动，不会一开始安排太多环节。 "
-                    f"只要让{target_group}知道活动在讲什么、后面遇到问题怎么继续问，基本目的就算达到了。 "
-                    "活动结束后再把现场反馈做个整理，作为后面调整的依据。"
+                    f"这类计划组织题我不会一上来把流程铺得很满，而是先抓住{target_group}、{topic}和关键步骤。 "
+                    "前面做好通知和准备，现场把核心内容讲明白并留出基本互动，后面再接一个简短的跟进反馈。 "
+                    f"这样既能保证{target_group}听得懂、跟得上，也不容易把答案答成空泛分析。"
                 ),
                 "medium",
                 False,
             ),
             (
                 (
-                    "我会把这个方案想得简单一点。 "
-                    f"前面先做通知和基本准备，中间把{topic}讲清楚，后面留一个反馈和继续跟进的口子。 "
-                    f"这样既能照顾到{target_group}的接受程度，也能避免活动设计得太满。"
+                    f"我的思路会更务实一点，就是先准备、再实施、最后跟进。 "
+                    f"准备阶段先把{target_group}的对象感和参与方式说明白，实施阶段围绕{topic}抓住两三个核心动作，最后补一个反馈收集和后续联系。 "
+                    "这样方案虽然不算很细，但至少类型是对的、步骤也是顺的。"
                 ),
                 "heavy",
                 False,
@@ -1190,34 +1888,27 @@ def build_organization_template_texts(question_data: dict[str, Any], mode: str) 
 
     return [
         (
-            (
-                "我觉得这个活动可以先按一个基础框架来做。 "
-                f"前面先把{target_group}和大致安排确定好。 "
-                f"现场主要把{topic}的基本内容讲一讲，让大家先有个了解。 "
-                "活动结束后再看反馈，后面有需要再补。 "
-                "整体上先把活动办起来就行。"
+                (
+                    f"我觉得这项工作可以先按一个基础框架来做。 前面先把{target_group}和基本安排确定好，现场围绕{topic}把主要步骤走顺，结束后留一个反馈和继续联系的口子。 "
+                    "先把对象、步骤和跟进交代清楚就可以。"
+                ),
+                "medium",
+                True,
             ),
-            "heavy",
+        (
+            (
+                f"我觉得这种组织题不用一开始就设计得特别复杂。 可以先做通知和简单准备，再围绕{topic}把核心环节走一遍，最后看看{target_group}还有什么反馈。 "
+                "这样至少不是空讲想法，方案也有基本骨架。"
+            ),
+            "medium",
             True,
         ),
         (
             (
-                "我觉得这项工作不用一开始就设计得特别复杂。 "
-                f"可以先做通知和简单准备，再围绕{topic}做现场说明，最后留一个后续联系的口子。 "
-                f"这样既能让{target_group}知道活动在干什么，也方便后面再慢慢调整。 "
-                "对我来说，先把基本框架搭起来更重要。"
+                f"我的想法是先把{target_group}、时间地点和基本分工理顺，再把{topic}相关内容说明白，最后做个简单跟进。 "
+                "先把活动办稳、把对象照顾到，后面再慢慢细化。"
             ),
-            "heavy",
-            True,
-        ),
-        (
-            (
-                "这个活动我会先按一个基础骨架来想。 "
-                "前面把对象、时间和基本安排先理顺，中间把核心内容说明白，后面再做简单反馈。 "
-                f"只要{target_group}能跟上节奏，现场不乱，这个活动就能先运转起来。 "
-                "后续如果效果一般，再边做边调也来得及。"
-            ),
-            "heavy",
+            "medium",
             True,
         ),
     ]
@@ -1297,6 +1988,129 @@ def build_scene_template_texts(question_data: dict[str, Any], mode: str) -> list
 
     target_group = infer_target_group(question_data, generic=False)
     topic = infer_topic_phrase(question_data, generic=False)
+    role_focus = infer_role_focus(question_data)
+    province = question_data.get("province", "当地") or "当地"
+    if is_speech_scene(question_data):
+        if mode == "mid":
+            return [
+                (
+                    (
+                        f"各位考官，今天我想围绕{topic}这个主题谈一点体会。 "
+                        f"在{province}基层发展里，{topic}不是一句空口号，而是群众精神面貌和乡村变化一点点累出来的新气象。 "
+                        "如果只把话说得很满，演讲会发空；但只要抓住一两个最直观的变化，比如风气更正、邻里更和、日子更有奔头，主题就能立住。 "
+                        f"所以我会先把主题点明，再结合{province}实际说一两个变化，最后把态度和{role_focus}里的责任收住。"
+                    ),
+                    "medium",
+                    False,
+                ),
+                (
+                    (
+                        f"各位考官，我理解这类演讲题关键还是把{topic}讲出画面感。 "
+                        f"可以先说{province}乡村这些年最直观的变化，再把这种变化为什么值得珍惜、为什么需要继续培育讲清楚。 "
+                        f"哪怕内容不铺得很满，只要主题稳、情感真，最后再回到{role_focus}该怎么做，整段演讲就能站住。"
+                    ),
+                    "medium",
+                    False,
+                ),
+                (
+                    (
+                        f"如果让我现场演讲，我会先把{topic}这个主题亮出来。 "
+                        f"然后围着{province}乡村这些年看得见的变化讲一两层意思，不空喊，也不堆太多例子。 "
+                        f"最后再把态度收回到{role_focus}上，这样演讲会更完整一些。"
+                    ),
+                    "medium",
+                    False,
+                ),
+            ]
+
+        return [
+            (
+                (
+                    f"各位考官，我想围绕{topic}这个主题简单谈几句。 "
+                    f"这类演讲题不用一开始铺得太满，先把{province}乡村这些年最直观的变化讲出来就够了。 "
+                    "比如风气更文明了、邻里更和气了、大家日子更有奔头了，这样会比空喊口号顺一些。 "
+                    f"后面再把态度和{role_focus}里的基本责任收一下，整段话就不会散。"
+                ),
+                "medium",
+                True,
+            ),
+            (
+                (
+                    f"各位考官，关于{topic}，我先谈一个总体感受。 "
+                    f"就是{province}乡村现在不只是环境在变，人的精神面貌和做事风气也在慢慢变。 "
+                    "哪怕只抓住一两个变化来说，再把自己想做的事简单收一下，演讲就比单纯表态更自然。"
+                ),
+                "medium",
+                True,
+            ),
+            (
+                (
+                    f"各位考官，我觉得这类题可以先从{topic}带来的实际变化说起。 "
+                    "先让听的人知道变化在哪、感受在哪，后面再补一句自己的理解和态度，整段表达就能基本立住。"
+                ),
+                "medium",
+                True,
+            ),
+        ]
+    if is_word_expression_scene(question_data):
+        terms = extract_word_expression_terms(question_data)
+        term_text = "、".join(terms[:3]) if terms else ""
+        keyword_text = "、".join(ordered_keywords(question_data, generic=False)[:2]) or "岗位价值"
+        if mode == "mid":
+            return [
+                (
+                    (
+                        f"这类串词表达题我不会把词语硬拼在一起，而是先围绕{topic}作一个基本判断。 "
+                        f"后面再把{keyword_text}这些价值导向、岗位认识和{role_focus}里的具体行动连起来，让几个词自然落到一段完整表达里。 "
+                        "这样至少能保证不是空喊口号，也不会只剩下词语堆砌。"
+                    ),
+                    "medium",
+                    False,
+                ),
+                (
+                    (
+                        f"我会先把主题拎出来，再把几个词语往同一个方向上串。 "
+                        f"先说清它为什么和{role_focus}有关，再补一句实际行动怎么落，这样整段话围着{topic}走，会更顺一些。"
+                    ),
+                    "medium",
+                    False,
+                ),
+                (
+                    (
+                        f"在我看，串词题的关键不是把词都塞进去，而是让词语最后都服务同一个主题。 "
+                        f"所以我会先点明{topic}的价值导向，再落到{role_focus}该怎么做，最后用自然一点的表达把整段收住。"
+                    ),
+                    "heavy",
+                    False,
+                ),
+            ]
+
+        return [
+            (
+                (
+                    f"这类串词题我会先从{term_text or keyword_text}里挑几个能接上的词，把意思顺着连起来。 "
+                    f"哪怕只是先把词和{province}发展、{role_focus}里的一个做法接上，也比单纯堆词强一点。"
+                ),
+                "medium",
+                True,
+            ),
+            (
+                (
+                    f"我觉得串词表达不用一上来就讲很大，先把{term_text or keyword_text}放到一条线上更重要。 "
+                    f"先说清这几个词为什么能放在一起，再顺手带到{role_focus}里的基本做法，整段话就会顺一点。"
+                ),
+                "medium",
+                True,
+            ),
+            (
+                (
+                    f"我的想法是先从{term_text or keyword_text}里挑三个能接上的词，简单串成一段话。 "
+                    f"先讲一层价值方向，再补一句{role_focus}怎么做，至少这段表达不会散掉。"
+                ),
+                "medium",
+                True,
+            ),
+        ]
     if mode == "mid":
         return [
             (
@@ -1312,8 +2126,9 @@ def build_scene_template_texts(question_data: dict[str, Any], mode: str) -> list
             (
                 (
                     f"各位{target_group}，关于{topic}这件事，我先和大家交流几点。 "
-                    "第一是为什么要做，第二是大家先怎么配合更合适，第三是后面遇到问题怎么边做边调。 "
-                    "先把核心内容听明白，比一开始记很多细节更重要，也比一上来担心成本和麻烦更重要。 "
+                    f"先把为什么要做、大家先怎么配合、遇到问题找谁说清楚。 "
+                    f"像{topic}这类现场说明，至少要把核心风险、基本做法和后续联系讲明白，大家才更容易听进去。 "
+                    "先把这些关键点听明白，比一开始记很多细节更重要，也比一上来担心成本和麻烦更重要。 "
                     "我会尽量用直白一点的话说，让大家先听懂主要内容。"
                 ),
                 "medium",
@@ -1339,27 +2154,28 @@ def build_scene_template_texts(question_data: dict[str, Any], mode: str) -> list
                     "大家先有个大概印象，能先试着配合的先配合。 "
                     "后面有疑问我们再继续沟通。"
                 ),
-                "heavy",
+                "medium",
                 True,
             ),
         (
                 (
-                    "大家好，关于这个事情，我先和大家做个简单交流。 "
-                    "主要就是把为什么做、先从哪里做大概说一下。 "
+                    f"大家好，关于{topic}这件事，我先和{target_group}做个简单交流。 "
+                    "主要就是把为什么做、大家先怎么配合、遇到问题找谁大概说一下。 "
+                    f"像这种现场说明，先把{role_focus}这边能做什么、大家要注意什么讲清楚就可以。 "
                     "有些细节今天先不展开，也不要求一步到位。 "
                     "如果后面还有问题，我们再继续沟通。"
                 ),
-                "heavy",
+                "medium",
                 True,
             ),
         (
                 (
-                    "今天我就这个安排和大家说明一下。 "
-                    "内容我尽量说得简单一点，先让大家有个基本了解。 "
-                    "大家先知道大概怎么回事、后面大概要怎么配合就可以。 "
+                    f"今天我就{topic}这个提醒和大家说明一下。 "
+                    f"内容我尽量说得简单一点，先让{target_group}知道这件事为什么要重视、基本要怎么配合。 "
+                    "先把风险提醒、配合方式和后续联系讲明白，整段话就不至于太空。 "
                     "后面需要补充的地方，我们再接着说。"
                 ),
-                "heavy",
+                "medium",
                 True,
             ),
     ]
@@ -1385,10 +2201,18 @@ def build_template_candidates(
         return []
 
     minimum_length, _ = desired_length_bounds(effective_length(question_data["referenceAnswer"]), mode)
-    if family in {"interpersonal", "scene"} and mode == "low":
+    if family == "interpersonal" and mode == "low":
         minimum_length = 0
-    elif family in {"interpersonal", "scene"} and mode == "mid":
+    elif family == "interpersonal" and mode == "mid":
         minimum_length = 0
+    elif family == "scene" and is_word_expression_scene(question_data) and mode == "low":
+        minimum_length = max(120, minimum_length - 220)
+    elif family == "scene" and is_word_expression_scene(question_data) and mode == "mid":
+        minimum_length = max(220, minimum_length - 220)
+    elif family == "scene" and mode == "low":
+        minimum_length = max(180, minimum_length - 160)
+    elif family == "scene" and mode == "mid":
+        minimum_length = max(260, minimum_length - 180)
     elif family == "organization" and mode == "low":
         minimum_length = max(220, minimum_length - 120)
     elif mode == "low":
@@ -1406,10 +2230,10 @@ def build_template_candidates(
         text = strip_role_conclusion(text, mode)
         if minimum_length > 0:
             text = extend_variant_length(text, question_data, mode, minimum_length)
-        if oral and not text.startswith(("我觉得", "我想", "在我看")):
+        if oral and not text.startswith(("我觉得", "我想", "在我看", "大家好", "各位")):
             text = "我觉得" + text
         text = clean_generated_sample_text(text)
-        if not text or text in seen_texts:
+        if not text or text in seen_texts or should_skip_candidate(text, question_data, mode):
             continue
         seen_texts.add(text)
         variants.append(
@@ -1540,11 +2364,11 @@ def build_fallback_candidates(
             sanitization=sanitization,
             oral=oral,
         )
-        if not text or text in seen_texts:
+        if not text or text in seen_texts or should_skip_candidate(text, question_data, mode):
             continue
         if effective_length(text) < minimum_length:
             text = extend_variant_length(text, question_data, mode, minimum_length)
-        if text in seen_texts:
+        if text in seen_texts or should_skip_candidate(text, question_data, mode):
             continue
         seen_texts.add(text)
         variants.append(
@@ -1628,6 +2452,7 @@ def collect_generated_candidates(
                             or text == clean_generated_sample_text(question_data["referenceAnswer"])
                             or text in seen_texts
                             or effective_length(text) < (220 if mode == "low" else 420)
+                            or should_skip_candidate(text, question_data, mode)
                         ):
                             continue
                         seen_texts.add(text)
@@ -1654,6 +2479,7 @@ def choose_low_sample(
     reference_length: int,
     *,
     family: str | None = None,
+    question_data: dict[str, Any] | None = None,
 ) -> GeneratedSample:
     """优先挑一个稳定落在中低位的样本。"""
 
@@ -1670,6 +2496,8 @@ def choose_low_sample(
         eligible,
         key=lambda candidate: (
             abs(candidate.score - target),
+            sample_quality_penalty(candidate.text, question_data, "low") if question_data else 0,
+            sample_strategy_penalty(candidate.strategy, "low"),
             0 if candidate.oral else 1,
             0 if candidate.sanitization == "heavy" else 1,
             sample_detail_score(candidate.text) * (1.3 if family in {"organization", "interpersonal", "scene"} else 1.0),
@@ -1689,6 +2517,7 @@ def choose_mid_sample(
     full_score: float,
     reference_length: int,
     family: str | None = None,
+    question_data: dict[str, Any] | None = None,
 ) -> GeneratedSample:
     """挑选介于高分与低分之间、且和低档拉开差距的样本。"""
 
@@ -1707,6 +2536,8 @@ def choose_mid_sample(
             separated,
             key=lambda candidate: (
                 abs(candidate.score - target),
+                sample_quality_penalty(candidate.text, question_data, "mid") if question_data else 0,
+                sample_strategy_penalty(candidate.strategy, "mid"),
                 max(0, minimum_length - effective_length(candidate.text)) / 70,
                 sample_detail_score(candidate.text) * (1.25 if family in {"organization", "interpersonal", "scene"} else 1.0),
                 0 if candidate.sanitization == "heavy" else (1 if candidate.sanitization == "medium" else 2),
@@ -1726,6 +2557,8 @@ def choose_mid_sample(
             fallback,
             key=lambda candidate: (
                 abs(candidate.score - target),
+                sample_quality_penalty(candidate.text, question_data, "mid") if question_data else 0,
+                sample_strategy_penalty(candidate.strategy, "mid"),
                 max(0, minimum_length - effective_length(candidate.text)) / 70,
                 sample_detail_score(candidate.text) * (1.25 if family in {"organization", "interpersonal", "scene"} else 1.0),
                 0 if candidate.sanitization == "heavy" else (1 if candidate.sanitization == "medium" else 2),
@@ -1838,6 +2671,7 @@ def build_reference_samples(question_data: dict[str, Any]) -> tuple[dict[str, Ge
         question.fullScore,
         reference_length,
         family=template_family,
+        question_data=question_data,
     )
     mid_sample = choose_mid_sample(
         mid_candidates,
@@ -1846,6 +2680,7 @@ def build_reference_samples(question_data: dict[str, Any]) -> tuple[dict[str, Ge
         full_score=question.fullScore,
         reference_length=reference_length,
         family=template_family,
+        question_data=question_data,
     )
     mid_sample, low_sample = ensure_mid_low_gap(
         mid_sample,
@@ -2114,16 +2949,26 @@ def parse_question_block(block: str, source_path: Path) -> ParsedQuestion:
         raise ValueError(f"{question_id} 缺少得分标准")
 
     dimensions = build_dimensions(scoring_criteria)
-    full_score = sum(item["score"] for item in dimensions)
-
-    configured_full_score = extract_field(ai_text, FIELD_PATTERNS["full_score"])
-    if configured_full_score:
-        full_score = float(configured_full_score)
-        dimensions = scale_dimensions_to_full_score(dimensions, full_score)
+    full_score = resolve_full_score(
+        question_text=question_text,
+        header_description=header_description,
+        scoring_section_text=sections.get("得分标准", ""),
+        ai_text=ai_text,
+        dimensions=dimensions,
+    )
+    dimensions = scale_dimensions_to_full_score(dimensions, full_score)
 
     source_document = infer_source_document(source_path)
     province = extract_field(ai_text, FIELD_PATTERNS["province"]) or "湖南"
-    question_type = extract_field(ai_text, FIELD_PATTERNS["type"]) or sections.get("题型定位", "")
+    question_type = clean_question_type(
+        extract_field(ai_text, FIELD_PATTERNS["type"]) or sections.get("题型定位", ""),
+        header_description,
+    )
+    core_keywords = split_list(extract_field(ai_text, FIELD_PATTERNS["core_keywords"]))
+    strong_keywords = split_list(extract_field(ai_text, FIELD_PATTERNS["strong_keywords"]))
+    weak_keywords = split_list(extract_field(ai_text, FIELD_PATTERNS["weak_keywords"]))
+    bonus_keywords = split_list(extract_field(ai_text, FIELD_PATTERNS["bonus_keywords"]))
+    penalty_keywords = split_list(extract_field(ai_text, FIELD_PATTERNS["penalty_keywords"]))
 
     data = {
         "id": question_id,
@@ -2132,16 +2977,20 @@ def parse_question_block(block: str, source_path: Path) -> ParsedQuestion:
         "fullScore": full_score,
         "question": question_text,
         "dimensions": dimensions,
-        "coreKeywords": split_list(extract_field(ai_text, FIELD_PATTERNS["core_keywords"])),
-        "strongKeywords": split_list(extract_field(ai_text, FIELD_PATTERNS["strong_keywords"])),
-        "weakKeywords": split_list(extract_field(ai_text, FIELD_PATTERNS["weak_keywords"])),
-        "bonusKeywords": split_list(extract_field(ai_text, FIELD_PATTERNS["bonus_keywords"])),
-        "penaltyKeywords": split_list(extract_field(ai_text, FIELD_PATTERNS["penalty_keywords"])),
+        "coreKeywords": core_keywords,
+        "strongKeywords": strong_keywords,
+        "weakKeywords": weak_keywords,
+        "bonusKeywords": bonus_keywords,
+        "penaltyKeywords": penalty_keywords,
         "scoringCriteria": scoring_criteria,
         "deductionRules": deduction_rules,
         "sourceDocument": source_document,
         "referenceAnswer": reference_answer,
-        "tags": build_tags(sections.get("检索标签", "")),
+        "tags": build_tags(
+            sections.get("检索标签", ""),
+            question_type=question_type,
+            keyword_groups=[core_keywords, strong_keywords],
+        ),
         "scoreBands": build_score_bands(full_score),
         "regressionCases": [],
         "_meta": {
