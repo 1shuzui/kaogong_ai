@@ -11,7 +11,10 @@ import logging
 from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from app.utils.encoding import ensure_utf8_stdio
 
+
+ensure_utf8_stdio()
 
 logging.basicConfig(
     level=logging.INFO,

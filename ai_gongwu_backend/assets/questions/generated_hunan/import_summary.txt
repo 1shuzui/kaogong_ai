@@ -1,4 +1,6 @@
 {
+  "profile": "hunan",
+  "province": "湖南",
   "source_files": [
     "湖南-2020-乡镇岗、遴选岗全.extracted.txt",
     "湖南-监狱-2020.extracted.txt",

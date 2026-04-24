@@ -1,0 +1,856 @@
+2026-04-18 16:09:49,158 - app.services.question_bank - INFO - 题库加载完成: D:\8\1\kaogong_ai\kaogong_ai\ai_gongwu_backend\assets\questions, 共 30 题
+2026-04-18 16:09:50,156 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-01, 文本长度=1094
+2026-04-18 16:09:58,888 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:10:03,646 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:10:03,651 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-01, 文本长度=1094
+2026-04-18 16:10:10,164 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:10:16,187 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:10:16,192 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-01, 文本长度=1094
+2026-04-18 16:10:21,191 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:10:26,560 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:10:26,566 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-01, 文本长度=110
+2026-04-18 16:10:30,689 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,558 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:10:34,562 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-01, 文本长度=110
+2026-04-18 16:10:38,875 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:10:44,026 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:10:44,028 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-01, 文本长度=110
+2026-04-18 16:10:48,951 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:10:52,400 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:10:52,406 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-01, 文本长度=87
+2026-04-18 16:10:57,039 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:11:01,023 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:11:01,024 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-01, 文本长度=87
+2026-04-18 16:11:05,148 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:11:09,207 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:11:09,210 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-01, 文本长度=87
+2026-04-18 16:11:13,267 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:11:17,367 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:11:17,372 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-02, 文本长度=1422
+2026-04-18 16:11:24,510 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:11:29,954 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:11:29,960 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-02, 文本长度=1422
+2026-04-18 16:11:38,426 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:11:43,542 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:11:43,548 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-02, 文本长度=1422
+2026-04-18 16:11:53,152 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:12:00,098 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:12:00,106 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-02, 文本长度=635
+2026-04-18 16:12:09,403 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:12:15,584 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:12:15,593 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-02, 文本长度=635
+2026-04-18 16:12:22,593 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:12:28,292 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:12:28,300 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-02, 文本长度=635
+2026-04-18 16:12:34,848 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:12:39,806 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:12:39,818 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-02, 文本长度=350
+2026-04-18 16:12:45,279 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:12:49,450 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:12:49,460 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-02, 文本长度=350
+2026-04-18 16:12:56,493 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:13:02,395 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:13:02,400 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-02, 文本长度=350
+2026-04-18 16:13:07,859 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:13:14,425 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:13:14,433 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-03, 文本长度=1656
+2026-04-18 16:13:16,567 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:13:20,769 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:13:20,776 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-03, 文本长度=1656
+2026-04-18 16:13:22,682 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:13:27,338 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:13:27,344 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-03, 文本长度=1656
+2026-04-18 16:13:33,802 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:13:40,894 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:13:40,905 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-03, 文本长度=113
+2026-04-18 16:13:45,400 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:13:50,240 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:13:50,242 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-03, 文本长度=113
+2026-04-18 16:13:54,687 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:14:01,012 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:14:01,015 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-03, 文本长度=113
+2026-04-18 16:14:04,984 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:14:09,465 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:14:09,471 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-03, 文本长度=87
+2026-04-18 16:14:14,067 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:14:18,827 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:14:18,830 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-03, 文本长度=87
+2026-04-18 16:14:22,904 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:14:27,851 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:14:27,854 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CS-20201212-03, 文本长度=87
+2026-04-18 16:14:31,767 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:14:36,162 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:14:36,169 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-01, 文本长度=1107
+2026-04-18 16:14:46,816 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:14:52,116 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:14:52,122 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-01, 文本长度=1107
+2026-04-18 16:15:01,303 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:15:04,593 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:15:04,599 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-01, 文本长度=1107
+2026-04-18 16:15:13,698 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:15:18,166 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:15:18,172 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-01, 文本长度=393
+2026-04-18 16:15:25,071 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:15:29,820 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:15:29,824 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-01, 文本长度=393
+2026-04-18 16:15:37,025 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:15:42,201 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:15:42,206 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-01, 文本长度=393
+2026-04-18 16:15:49,479 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:15:54,622 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:15:54,629 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-01, 文本长度=305
+2026-04-18 16:16:00,141 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:16:03,949 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:16:03,952 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-01, 文本长度=305
+2026-04-18 16:16:13,011 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:16:16,931 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:16:16,934 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-01, 文本长度=305
+2026-04-18 16:16:25,677 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:16:28,653 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:16:28,663 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-02, 文本长度=1465
+2026-04-18 16:16:37,829 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:16:40,593 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:16:40,599 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-02, 文本长度=1465
+2026-04-18 16:16:50,473 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:16:53,062 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:16:53,068 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-02, 文本长度=1465
+2026-04-18 16:17:02,162 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:17:05,164 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:17:05,172 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-02, 文本长度=113
+2026-04-18 16:17:10,004 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:17:14,754 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:17:14,757 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-02, 文本长度=113
+2026-04-18 16:17:19,297 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:17:24,292 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:17:24,295 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-02, 文本长度=113
+2026-04-18 16:17:29,067 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:17:33,966 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:17:33,971 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-02, 文本长度=54
+2026-04-18 16:17:37,686 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:17:42,482 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:17:42,485 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-02, 文本长度=54
+2026-04-18 16:17:46,223 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:17:51,174 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:17:51,177 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-02, 文本长度=54
+2026-04-18 16:17:55,015 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:17:59,758 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:17:59,762 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-03, 文本长度=1847
+2026-04-18 16:18:09,868 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:18:18,559 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:18:18,573 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-03, 文本长度=1847
+2026-04-18 16:18:28,908 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:18:38,628 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:18:38,640 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-03, 文本长度=1847
+2026-04-18 16:18:49,052 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:18:57,863 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:18:57,878 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-03, 文本长度=504
+2026-04-18 16:19:04,934 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:19:09,876 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:19:09,884 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-03, 文本长度=504
+2026-04-18 16:19:16,926 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:19:23,127 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:19:23,135 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-03, 文本长度=504
+2026-04-18 16:19:29,494 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:19:35,735 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:19:35,745 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-03, 文本长度=410
+2026-04-18 16:19:41,416 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:19:47,327 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:19:47,331 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-03, 文本长度=410
+2026-04-18 16:19:52,762 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:19:58,000 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:19:58,004 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=CSJT-20201226-03, 文本长度=410
+2026-04-18 16:20:03,776 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:20:08,409 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:20:08,415 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-01, 文本长度=1711
+2026-04-18 16:20:20,067 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:20:29,395 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:20:29,403 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-01, 文本长度=1711
+2026-04-18 16:20:40,386 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:20:44,540 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:20:44,547 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-01, 文本长度=1711
+2026-04-18 16:20:55,327 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:21:00,668 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:21:00,676 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-01, 文本长度=397
+2026-04-18 16:21:09,898 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:21:17,322 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:21:17,326 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-01, 文本长度=397
+2026-04-18 16:21:25,835 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:21:32,333 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:21:32,338 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-01, 文本长度=397
+2026-04-18 16:21:40,318 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:21:45,517 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:21:45,523 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-01, 文本长度=382
+2026-04-18 16:21:51,669 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:21:57,012 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:21:57,017 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-01, 文本长度=382
+2026-04-18 16:22:03,767 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:22:10,288 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:22:10,293 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-01, 文本长度=382
+2026-04-18 16:22:17,753 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:22:24,203 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:22:24,210 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-02, 文本长度=2079
+2026-04-18 16:22:33,604 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:22:40,010 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:22:40,018 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-02, 文本长度=2079
+2026-04-18 16:22:50,355 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:22:57,798 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:22:57,807 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-02, 文本长度=2079
+2026-04-18 16:23:06,841 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:23:15,071 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:23:15,081 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-02, 文本长度=376
+2026-04-18 16:23:19,575 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:23:25,283 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:23:25,288 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-02, 文本长度=376
+2026-04-18 16:23:29,605 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:23:34,110 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:23:34,115 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-02, 文本长度=376
+2026-04-18 16:23:41,729 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:23:45,666 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:23:45,672 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-02, 文本长度=388
+2026-04-18 16:23:53,697 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:23:57,631 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:23:57,636 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-02, 文本长度=388
+2026-04-18 16:24:04,028 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:24:07,981 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:24:07,986 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-02, 文本长度=388
+2026-04-18 16:24:16,363 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:24:20,927 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:24:20,932 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-03, 文本长度=2273
+2026-04-18 16:24:33,727 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:24:37,252 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:24:37,262 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-03, 文本长度=2273
+2026-04-18 16:24:49,658 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:24:56,762 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:24:56,773 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-03, 文本长度=2273
+2026-04-18 16:25:08,013 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:25:11,012 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:25:11,023 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-03, 文本长度=115
+2026-04-18 16:25:14,952 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:25:19,570 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:25:19,574 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-03, 文本长度=115
+2026-04-18 16:25:23,363 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:25:27,931 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:25:27,935 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-03, 文本长度=115
+2026-04-18 16:25:31,799 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:25:35,540 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:25:35,545 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-03, 文本长度=54
+2026-04-18 16:25:38,358 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:25:41,583 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:25:41,587 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-03, 文本长度=54
+2026-04-18 16:25:44,544 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:25:47,787 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:25:47,790 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200816-03, 文本长度=54
+2026-04-18 16:25:50,880 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:25:53,832 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:25:53,837 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-01, 文本长度=1506
+2026-04-18 16:26:01,828 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:26:07,099 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:26:07,106 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-01, 文本长度=1506
+2026-04-18 16:26:17,153 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:26:24,139 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:26:24,146 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-01, 文本长度=1506
+2026-04-18 16:26:31,660 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:26:38,135 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:26:38,143 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-01, 文本长度=397
+2026-04-18 16:26:45,313 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:26:50,312 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:26:50,317 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-01, 文本长度=397
+2026-04-18 16:26:58,134 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:27:04,561 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:27:04,566 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-01, 文本长度=397
+2026-04-18 16:27:12,169 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:27:16,518 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:27:16,523 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-01, 文本长度=334
+2026-04-18 16:27:24,997 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:27:30,940 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:27:30,944 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-01, 文本长度=334
+2026-04-18 16:27:39,715 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:27:44,534 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:27:44,538 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-01, 文本长度=334
+2026-04-18 16:27:52,856 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:27:58,375 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:27:58,381 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-02, 文本长度=1807
+2026-04-18 16:28:08,085 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:28:12,685 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:28:12,693 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-02, 文本长度=1807
+2026-04-18 16:28:24,220 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:28:32,052 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:28:32,063 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-02, 文本长度=1807
+2026-04-18 16:28:44,550 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:28:50,871 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:28:50,883 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-02, 文本长度=113
+2026-04-18 16:28:54,122 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:28:57,705 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:28:57,709 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-02, 文本长度=113
+2026-04-18 16:29:01,811 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:29:05,861 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:29:05,865 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-02, 文本长度=113
+2026-04-18 16:29:09,995 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:29:13,855 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:29:13,861 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-02, 文本长度=54
+2026-04-18 16:29:17,317 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:29:21,537 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:29:21,541 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-02, 文本长度=54
+2026-04-18 16:29:24,585 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:29:28,490 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:29:28,494 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-02, 文本长度=54
+2026-04-18 16:29:31,777 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:29:35,434 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:29:35,438 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-03, 文本长度=1429
+2026-04-18 16:29:43,608 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:29:48,884 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:29:48,891 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-03, 文本长度=1429
+2026-04-18 16:29:57,248 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:30:02,009 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:30:02,015 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-03, 文本长度=1429
+2026-04-18 16:30:11,226 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:30:16,840 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:30:16,847 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-03, 文本长度=376
+2026-04-18 16:30:25,343 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:30:31,614 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:30:31,618 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-03, 文本长度=376
+2026-04-18 16:30:38,850 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:30:44,834 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:30:44,839 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-03, 文本长度=376
+2026-04-18 16:30:54,397 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:31:01,874 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:31:01,879 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-03, 文本长度=261
+2026-04-18 16:31:07,114 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:31:12,124 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:31:12,128 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-03, 文本长度=261
+2026-04-18 16:31:21,359 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:31:28,488 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:31:28,491 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-03, 文本长度=261
+2026-04-18 16:31:34,030 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:31:40,200 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:31:40,205 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-01, 文本长度=1370
+2026-04-18 16:31:51,141 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:31:55,079 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:31:55,084 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-01, 文本长度=1370
+2026-04-18 16:32:04,305 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:32:08,723 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:32:08,729 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-01, 文本长度=1370
+2026-04-18 16:32:20,161 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:32:24,911 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:32:24,918 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-01, 文本长度=397
+2026-04-18 16:32:31,232 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:32:37,171 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:32:37,176 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-01, 文本长度=397
+2026-04-18 16:32:42,600 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:32:49,282 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:32:49,286 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-01, 文本长度=397
+2026-04-18 16:32:55,661 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:33:01,293 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:33:01,298 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-01, 文本长度=305
+2026-04-18 16:33:07,525 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:33:14,284 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:33:14,288 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-01, 文本长度=305
+2026-04-18 16:33:23,410 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:33:29,934 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:33:29,938 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-01, 文本长度=305
+2026-04-18 16:33:34,965 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:33:40,844 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:33:40,850 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-02, 文本长度=1654
+2026-04-18 16:33:50,394 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:33:56,103 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:33:56,113 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-02, 文本长度=1654
+2026-04-18 16:34:07,786 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:34:13,350 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:34:13,360 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-02, 文本长度=1654
+2026-04-18 16:34:22,535 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:34:30,507 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:34:30,517 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-02, 文本长度=115
+2026-04-18 16:34:33,924 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:34:37,574 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:34:37,578 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-02, 文本长度=115
+2026-04-18 16:34:41,206 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:34:48,150 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:34:48,154 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-02, 文本长度=115
+2026-04-18 16:34:52,580 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:34:55,594 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:34:55,599 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-02, 文本长度=54
+2026-04-18 16:34:58,947 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:35:02,708 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:35:02,711 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-02, 文本长度=54
+2026-04-18 16:35:05,560 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:35:09,029 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:35:09,032 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-02, 文本长度=54
+2026-04-18 16:35:13,310 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:35:17,383 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:35:17,388 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-03, 文本长度=1206
+2026-04-18 16:35:28,936 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:35:35,980 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:35:35,985 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-03, 文本长度=1206
+2026-04-18 16:35:47,121 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:35:53,261 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:35:53,266 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-03, 文本长度=1206
+2026-04-18 16:36:04,265 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:36:10,437 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:36:10,443 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-03, 文本长度=110
+2026-04-18 16:36:14,012 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:36:17,751 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:36:17,754 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-03, 文本长度=110
+2026-04-18 16:36:22,132 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:36:26,885 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:36:26,887 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-03, 文本长度=110
+2026-04-18 16:36:30,829 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:36:35,014 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:36:35,018 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-03, 文本长度=87
+2026-04-18 16:36:40,460 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:36:44,727 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:36:44,730 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-03, 文本长度=87
+2026-04-18 16:36:49,827 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:36:53,714 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:36:53,716 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200919-JY-03, 文本长度=87
+2026-04-18 16:36:58,639 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:37:03,835 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:37:03,839 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-01, 文本长度=2721
+2026-04-18 16:37:13,823 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:37:19,233 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:37:19,246 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-01, 文本长度=2721
+2026-04-18 16:37:28,993 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:37:32,679 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:37:32,691 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-01, 文本长度=2721
+2026-04-18 16:37:42,408 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:37:48,045 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:37:48,058 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-01, 文本长度=110
+2026-04-18 16:37:52,668 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:37:56,510 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:37:56,512 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-01, 文本长度=110
+2026-04-18 16:38:02,332 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:38:06,789 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:38:06,793 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-01, 文本长度=110
+2026-04-18 16:38:11,441 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:38:16,578 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:38:16,581 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-01, 文本长度=87
+2026-04-18 16:38:21,450 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:38:25,615 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:38:25,618 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-01, 文本长度=87
+2026-04-18 16:38:30,751 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:38:34,350 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:38:34,355 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-01, 文本长度=87
+2026-04-18 16:38:39,157 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:38:43,277 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:38:43,281 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-02, 文本长度=1126
+2026-04-18 16:38:52,374 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:38:58,840 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:38:58,844 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-02, 文本长度=1126
+2026-04-18 16:39:08,091 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:39:14,369 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:39:14,373 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-02, 文本长度=1126
+2026-04-18 16:39:22,819 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:39:29,296 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:39:29,302 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-02, 文本长度=397
+2026-04-18 16:39:37,585 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:39:45,195 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:39:45,200 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-02, 文本长度=397
+2026-04-18 16:39:52,412 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:39:58,079 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:39:58,084 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-02, 文本长度=397
+2026-04-18 16:40:04,618 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:40:11,558 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:40:11,565 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-02, 文本长度=293
+2026-04-18 16:40:19,084 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:40:24,393 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:40:24,397 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-02, 文本长度=293
+2026-04-18 16:40:32,809 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:40:38,034 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:40:38,068 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-02, 文本长度=293
+2026-04-18 16:40:46,249 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:40:51,362 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:40:51,370 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-01, 文本长度=1231
+2026-04-18 16:41:00,201 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:41:03,483 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:41:03,492 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-01, 文本长度=1231
+2026-04-18 16:41:12,358 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:41:16,307 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:41:16,312 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-01, 文本长度=1231
+2026-04-18 16:41:24,069 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:41:27,985 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:41:27,993 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-01, 文本长度=399
+2026-04-18 16:41:33,799 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:41:39,526 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:41:39,532 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-01, 文本长度=399
+2026-04-18 16:41:47,762 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:41:53,194 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:41:53,199 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-01, 文本长度=399
+2026-04-18 16:41:58,626 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:42:03,347 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:42:03,354 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-01, 文本长度=293
+2026-04-18 16:42:10,809 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:42:16,053 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:42:16,057 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-01, 文本长度=293
+2026-04-18 16:42:22,484 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:42:27,298 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:42:27,301 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-01, 文本长度=293
+2026-04-18 16:42:35,340 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:42:40,910 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:42:40,919 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-02, 文本长度=1537
+2026-04-18 16:42:49,706 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:42:54,225 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:42:54,231 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-02, 文本长度=1537
+2026-04-18 16:43:03,857 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:43:08,949 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:43:08,956 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-02, 文本长度=1537
+2026-04-18 16:43:17,645 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:43:22,771 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:43:22,783 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-02, 文本长度=115
+2026-04-18 16:43:26,319 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:43:30,828 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:43:30,831 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-02, 文本长度=115
+2026-04-18 16:43:34,070 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:43:39,840 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:43:39,842 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-02, 文本长度=115
+2026-04-18 16:43:44,302 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:43:48,610 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:43:48,614 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-02, 文本长度=54
+2026-04-18 16:43:51,568 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:43:54,899 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:43:54,901 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-02, 文本长度=54
+2026-04-18 16:43:57,850 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:44:01,151 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:44:01,153 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-02, 文本长度=54
+2026-04-18 16:44:04,353 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:44:07,318 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:44:07,322 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-03, 文本长度=1224
+2026-04-18 16:44:18,302 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:44:23,870 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:44:23,874 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-03, 文本长度=1224
+2026-04-18 16:44:33,250 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:44:40,266 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:44:40,271 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-03, 文本长度=1224
+2026-04-18 16:44:49,431 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:44:54,527 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:44:54,533 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-03, 文本长度=109
+2026-04-18 16:44:59,209 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:45:04,578 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:45:04,580 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-03, 文本长度=109
+2026-04-18 16:45:10,661 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:45:15,814 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:45:15,816 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-03, 文本长度=109
+2026-04-18 16:45:21,511 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:45:26,652 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:45:26,657 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-03, 文本长度=87
+2026-04-18 16:45:31,190 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:45:36,532 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:45:36,534 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-03, 文本长度=87
+2026-04-18 16:45:41,702 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:45:47,077 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:45:47,079 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-JY-03, 文本长度=87
+2026-04-18 16:45:51,246 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:45:56,394 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:45:56,397 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-01, 文本长度=4959
+2026-04-18 16:46:06,236 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:46:12,799 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:46:12,821 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-01, 文本长度=4959
+2026-04-18 16:46:21,623 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:46:25,849 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:46:25,880 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-01, 文本长度=4959
+2026-04-18 16:46:34,642 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:46:40,611 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:46:40,645 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-01, 文本长度=619
+2026-04-18 16:46:48,288 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:46:52,465 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:46:52,478 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-01, 文本长度=619
+2026-04-18 16:47:02,376 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:47:06,247 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:47:06,259 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-01, 文本长度=619
+2026-04-18 16:47:13,832 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:47:17,866 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:47:17,881 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-01, 文本长度=566
+2026-04-18 16:47:24,321 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:47:29,309 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:47:29,320 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-01, 文本长度=566
+2026-04-18 16:47:35,971 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:47:40,324 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:47:40,336 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-01, 文本长度=566
+2026-04-18 16:47:49,022 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:47:53,862 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:47:53,874 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-02, 文本长度=1019
+2026-04-18 16:48:04,325 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:48:08,986 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:48:08,990 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-02, 文本长度=1019
+2026-04-18 16:48:20,206 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:48:24,826 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:48:24,830 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-02, 文本长度=1019
+2026-04-18 16:48:35,480 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:48:40,618 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:48:40,623 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-02, 文本长度=393
+2026-04-18 16:48:49,006 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:48:54,320 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:48:54,324 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-02, 文本长度=393
+2026-04-18 16:48:59,686 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:49:06,108 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:49:06,112 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-02, 文本长度=393
+2026-04-18 16:49:12,336 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:49:17,873 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:49:17,879 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-02, 文本长度=293
+2026-04-18 16:49:26,180 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:49:31,056 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:49:31,060 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-02, 文本长度=293
+2026-04-18 16:49:38,768 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:49:43,317 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:49:43,321 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-02, 文本长度=293
+2026-04-18 16:49:49,296 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:49:53,875 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:49:53,880 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-03, 文本长度=1110
+2026-04-18 16:50:07,053 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:50:11,696 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:50:11,704 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-03, 文本长度=1110
+2026-04-18 16:50:22,950 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:50:28,041 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:50:28,048 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-03, 文本长度=1110
+2026-04-18 16:50:38,936 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:50:44,473 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:50:44,480 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-03, 文本长度=110
+2026-04-18 16:50:48,615 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:50:53,137 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:50:53,139 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-03, 文本长度=110
+2026-04-18 16:50:57,472 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:51:01,811 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:51:01,813 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-03, 文本长度=110
+2026-04-18 16:51:05,240 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:51:10,670 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:51:10,673 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-03, 文本长度=87
+2026-04-18 16:51:15,564 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:51:21,080 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:51:21,083 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-03, 文本长度=87
+2026-04-18 16:51:25,324 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:51:28,880 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:51:28,883 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200920-XZ-03, 文本长度=87
+2026-04-18 16:51:33,809 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:51:38,293 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:51:38,297 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-01, 文本长度=1418
+2026-04-18 16:51:46,350 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:51:52,050 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:51:52,058 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-01, 文本长度=1418
+2026-04-18 16:52:00,789 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:52:07,581 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:52:07,588 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-01, 文本长度=1418
+2026-04-18 16:52:15,012 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:52:22,060 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:52:22,069 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-01, 文本长度=399
+2026-04-18 16:52:30,767 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:52:38,177 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:52:38,182 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-01, 文本长度=399
+2026-04-18 16:52:46,021 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:52:52,836 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:52:52,840 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-01, 文本长度=399
+2026-04-18 16:53:00,627 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:53:09,824 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:53:09,829 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-01, 文本长度=322
+2026-04-18 16:53:17,717 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:53:24,087 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:53:24,092 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-01, 文本长度=322
+2026-04-18 16:53:32,127 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:53:37,314 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:53:37,320 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-01, 文本长度=322
+2026-04-18 16:53:46,136 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:53:53,125 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:53:53,131 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-02, 文本长度=1238
+2026-04-18 16:54:02,874 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:54:08,689 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:54:08,694 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-02, 文本长度=1238
+2026-04-18 16:54:17,109 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:54:22,441 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:54:22,446 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-02, 文本长度=1238
+2026-04-18 16:54:34,615 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:54:39,418 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:54:39,424 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-02, 文本长度=547
+2026-04-18 16:54:46,776 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:54:52,013 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:54:52,017 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-02, 文本长度=547
+2026-04-18 16:54:59,720 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:55:05,107 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:55:05,111 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-02, 文本长度=547
+2026-04-18 16:55:12,867 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:55:20,947 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:55:20,955 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-02, 文本长度=329
+2026-04-18 16:55:27,858 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:55:32,850 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:55:32,854 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-02, 文本长度=329
+2026-04-18 16:55:42,117 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:55:47,174 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:55:47,178 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-02, 文本长度=329
+2026-04-18 16:55:55,796 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:56:01,766 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:56:01,771 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-03, 文本长度=1151
+2026-04-18 16:56:12,985 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:56:21,391 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:56:21,395 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-03, 文本长度=1151
+2026-04-18 16:56:32,878 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:56:43,577 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:56:43,581 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-03, 文本长度=1151
+2026-04-18 16:56:55,515 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:57:05,363 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:57:05,369 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-03, 文本长度=549
+2026-04-18 16:57:15,510 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:57:20,322 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:57:20,327 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-03, 文本长度=549
+2026-04-18 16:57:32,153 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:57:38,690 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:57:38,695 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-03, 文本长度=549
+2026-04-18 16:57:48,505 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:57:54,811 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:57:54,818 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-03, 文本长度=345
+2026-04-18 16:58:02,567 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:58:07,102 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:58:07,105 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-03, 文本长度=345
+2026-04-18 16:58:16,910 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:58:21,741 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:58:21,744 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200921-XZ-03, 文本长度=345
+2026-04-18 16:58:29,014 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:58:34,790 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:58:34,796 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-01, 文本长度=1461
+2026-04-18 16:58:47,349 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:58:53,051 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:58:53,056 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-01, 文本长度=1461
+2026-04-18 16:59:05,419 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:59:10,983 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:59:10,989 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-01, 文本长度=1461
+2026-04-18 16:59:23,421 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:59:29,935 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:59:29,943 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-01, 文本长度=397
+2026-04-18 16:59:36,800 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:59:43,463 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:59:43,466 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-01, 文本长度=397
+2026-04-18 16:59:50,585 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:59:57,402 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 16:59:57,407 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-01, 文本长度=397
+2026-04-18 17:00:05,146 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:00:13,143 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:00:13,149 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-01, 文本长度=322
+2026-04-18 17:00:20,551 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:00:26,675 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:00:26,679 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-01, 文本长度=322
+2026-04-18 17:00:35,241 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:00:42,541 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:00:42,547 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-01, 文本长度=322
+2026-04-18 17:00:51,296 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:00:58,054 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:00:58,060 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-02, 文本长度=1263
+2026-04-18 17:01:09,452 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:01:13,795 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:01:13,800 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-02, 文本长度=1263
+2026-04-18 17:01:21,503 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:01:26,797 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:01:26,802 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-02, 文本长度=1263
+2026-04-18 17:01:36,191 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:01:43,682 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:01:43,688 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-02, 文本长度=397
+2026-04-18 17:01:52,467 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:01:57,991 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:01:57,997 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-02, 文本长度=397
+2026-04-18 17:02:06,528 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:02:12,725 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:02:12,729 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-02, 文本长度=397
+2026-04-18 17:02:20,523 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:02:25,528 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:02:25,535 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-02, 文本长度=305
+2026-04-18 17:02:35,766 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:02:40,894 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:02:40,899 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-02, 文本长度=305
+2026-04-18 17:02:49,129 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:02:54,161 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:02:54,164 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-02, 文本长度=305
+2026-04-18 17:03:03,629 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:03:08,440 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:03:08,445 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-03, 文本长度=1319
+2026-04-18 17:03:18,673 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:03:24,076 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:03:24,080 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-03, 文本长度=1319
+2026-04-18 17:03:34,186 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:03:39,268 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:03:39,275 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-03, 文本长度=1319
+2026-04-18 17:03:48,688 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:03:52,777 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:03:52,785 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-03, 文本长度=377
+2026-04-18 17:04:02,189 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:04:08,042 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:04:08,046 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-03, 文本长度=377
+2026-04-18 17:04:17,655 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:04:22,916 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:04:22,920 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-03, 文本长度=377
+2026-04-18 17:04:33,079 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:04:38,383 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:04:38,388 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-03, 文本长度=250
+2026-04-18 17:04:47,241 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:04:52,784 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:04:52,787 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-03, 文本长度=250
+2026-04-18 17:05:01,646 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:05:06,519 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:05:06,522 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-20200922-XZ-03, 文本长度=250
+2026-04-18 17:05:15,152 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:05:26,021 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:05:26,026 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=514
+2026-04-18 17:05:34,776 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:05:41,857 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:05:41,859 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=514
+2026-04-18 17:05:52,245 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:06:00,666 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:06:00,667 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=514
+2026-04-18 17:06:10,936 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:06:17,818 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:06:17,821 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=449
+2026-04-18 17:06:26,754 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:06:35,210 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:06:35,212 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=449
+2026-04-18 17:06:43,369 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:06:52,229 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:06:52,231 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=449
+2026-04-18 17:07:01,832 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:07:07,851 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:07:07,854 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=625
+2026-04-18 17:07:19,316 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:07:24,841 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:07:24,842 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=625
+2026-04-18 17:07:37,385 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:07:45,682 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:07:45,683 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=625
+2026-04-18 17:07:56,625 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:08:00,678 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:08:00,681 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=656
+2026-04-18 17:08:09,967 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:08:15,241 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:08:15,243 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=656
+2026-04-18 17:08:26,927 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:08:32,138 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:08:32,139 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=656
+2026-04-18 17:08:42,378 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:08:48,990 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:08:48,993 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=767
+2026-04-18 17:09:01,154 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:09:09,128 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:09:09,130 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=767
+2026-04-18 17:09:20,088 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:09:29,427 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:09:29,428 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=767
+2026-04-18 17:09:39,642 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:09:45,650 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:09:45,654 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=1049
+2026-04-18 17:10:00,075 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:10:05,988 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:10:05,989 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=1049
+2026-04-18 17:10:16,071 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:10:21,673 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:10:21,675 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=1049
+2026-04-18 17:10:32,073 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:10:37,390 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:10:37,393 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=1187
+2026-04-18 17:10:45,794 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:10:51,585 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:10:51,586 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=1187
+2026-04-18 17:11:01,271 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:11:07,599 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:11:07,600 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=1187
+2026-04-18 17:11:16,044 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:11:22,629 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:11:22,631 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=1480
+2026-04-18 17:11:29,933 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:11:35,874 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:11:35,875 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=1480
+2026-04-18 17:11:43,544 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:11:50,251 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:11:50,253 - app.services.flow - INFO - 启动纯文本测评旁路, question_id=HN-LX-20200606-01, 文本长度=1480
+2026-04-18 17:11:59,539 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
+2026-04-18 17:12:04,142 - httpx - INFO - HTTP Request: POST https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions "HTTP/1.1 200 OK"
