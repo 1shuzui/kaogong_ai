@@ -1,8 +1,14 @@
-"""两阶段评分 Prompt 构造模块。"""
+"""评分与违规前置检测 Prompt 构造模块。"""
 
 import json
 
 from app.models.schemas import EvidenceExtractionPayload, QuestionDefinition
+
+VIOLATION_CHECK_SYSTEM_MESSAGE = (
+    "你是一个严格的违规内容检测引擎。"
+    "你的任务是先判断考生作答是否包含需要直接终止评分的违规表达。"
+    "只输出合法 JSON。"
+)
 
 EVIDENCE_EXTRACTION_SYSTEM_MESSAGE = (
     "你是一个严格的证据抽取引擎。"
@@ -66,6 +72,62 @@ def _build_score_band_anchors(question: QuestionDefinition) -> str:
             f"4. 0-{_format_score(full_score * 0.45 - 0.1)} 分：明显偏弱。内容单薄、逻辑松散或有效措施较少。",
         ]
     )
+
+
+def build_violation_check_prompt(
+    question: QuestionDefinition,
+    answer_text: str,
+    visual_observation: str | None = None,
+) -> str:
+    """评分前的违规检测提示词。"""
+
+    visual_block = visual_observation or "未提供视频流，默认不含额外视觉违规信息。"
+
+    prompt = f"""
+# 角色
+你现在是“评分前违规检测员”，不是评分官。
+你的唯一任务是判断【考生作答原文】里是否存在需要直接终止评分的违规表达。
+
+# 一票否决规则
+只要命中下面任一类，is_violation 就返回 true，后续不再评分：
+1. 明显辱骂、侮辱、攻击性脏话、恶意人身攻击
+2. 明显政治红线、极端不当政治表达
+3. 明显违背廉政要求、鼓吹行贿受贿、权钱交易、走后门等不当表达
+4. 其他非常明显、足以直接终止评分的不当内容
+
+# 不要误判
+1. 正常讨论“反腐倡廉、廉洁自律、不能行贿受贿”这类否定性表达，不算违规
+2. 正常批评问题、表达压力、指出工作不足，不算违规
+3. 只有当原文中出现了明确违规词句、违规倾向或违规主张，才判违规
+
+# 题目信息
+题目 ID: {question.id}
+题目类型: {question.type}
+题干: {question.question}
+
+# 视觉观察
+{visual_block}
+
+# 考生作答原文
+===== 开始 =====
+{answer_text}
+===== 结束 =====
+
+# 输出要求
+1. 只输出 JSON
+2. 如果不违规，matched_terms 返回空数组，reason 简短说明“未发现明显违规表达”
+3. 如果违规，matched_terms 只保留原文中最关键的 1-5 个词或短句
+4. category 建议使用：abuse / political_red_line / integrity_red_line / other
+
+# JSON Schema
+{{
+  "is_violation": false,
+  "category": "",
+  "matched_terms": [],
+  "reason": "未发现明显违规表达"
+}}
+"""
+    return prompt.strip()
 
 
 def build_evidence_extraction_prompt(

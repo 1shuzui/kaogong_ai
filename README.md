@@ -40,13 +40,14 @@
 9. 湖南自动导入样本已按 `analysis / organization / interpersonal / scene` 四类题型分别生成中低档模板。
 10. `--writeback` 已收紧为“只允许稳定题回写”，当前保留 3 道已确认稳定题的保护区间，其余题目继续走子集回归后再决定是否升级。
 
-当前仓库内除了手工题库外，还包含一套自动生成的湖南题库：
+当前仓库内除了手工题库外，还包含湖南 / 安徽两套自动生成题库：
 
-1. 题库目录：`ai_gongwu_backend/assets/questions/generated_hunan/`
-2. 样本目录：`ai_gongwu_backend/assets/regression_samples/generated_hunan/`
-3. 导入脚本：`ai_gongwu_backend/scripts/import_hunan_question_bank.py`
-4. 当前已生成 `29` 道题，每题配套 `high / mid / low` 三档回归样本。
-5. 导入摘要见：`ai_gongwu_backend/assets/questions/generated_hunan/import_summary.txt`
+1. 湖南题库目录：`ai_gongwu_backend/assets/questions/generated_hunan/`
+2. 安徽题库目录：`ai_gongwu_backend/assets/questions/generated_anhui/`
+3. 样本目录：`ai_gongwu_backend/assets/regression_samples/generated_hunan/`、`ai_gongwu_backend/assets/regression_samples/generated_anhui/`
+4. 通用导入脚本：`ai_gongwu_backend/scripts/import_question_bank.py`
+5. 兼容入口：`ai_gongwu_backend/scripts/import_hunan_question_bank.py`
+6. `.docx` 提取脚本：`ai_gongwu_backend/scripts/extract_docx_text.py`
 
 ---
 
@@ -263,14 +264,28 @@ MAX_RATIONALE_CHARS=400
 
 ## 8. 启动项目
 
-### 方式一：直接启动
+如果你要看本地启动、日常维护、测试与排障的完整操作手册，请优先阅读 [docs/使用与维护与测试说明.md](docs/使用与维护与测试说明.md)。
+
+### 方式一：标准命令启动
 
 ```bash
 cd /home/quyu/ai_interview/ai_gongwu_backend
 uvicorn app.main:app --reload --port 9000
 ```
 
-### 方式二：运行脚本
+### 方式二：直接运行入口文件
+
+```bash
+python /absolute/path/to/ai_gongwu_backend/app/main.py
+```
+
+也支持在 `ai_gongwu_backend` 目录内使用模块方式启动：
+
+```bash
+python -m app.main
+```
+
+### 方式三：运行脚本
 
 ```bash
 cd /home/quyu/ai_interview/ai_gongwu_backend
@@ -308,18 +323,20 @@ http://127.0.0.1:9000/docs
 
 ## 10. 常用脚本
 
-### 10.1 重新导入湖南题库
+### 10.1 重新提取 / 导入题库
 
 ```bash
 cd /home/quyu/ai_interview/ai_gongwu_backend
-./venv/bin/python scripts/import_hunan_question_bank.py
+./venv/bin/python scripts/extract_docx_text.py ../2020-2025第二批次完全版.docx
+./venv/bin/python scripts/import_question_bank.py --profile anhui
+./venv/bin/python scripts/import_question_bank.py --profile hunan
 ```
 
 执行后会刷新：
 
-1. `assets/questions/generated_hunan/`
-2. `assets/regression_samples/generated_hunan/`
-3. `assets/questions/generated_hunan/import_summary.txt`
+1. `assets/questions/generated_hunan/` 或 `assets/questions/generated_anhui/`
+2. `assets/regression_samples/generated_hunan/` 或 `assets/regression_samples/generated_anhui/`
+3. 对应目录下的 `import_summary.txt`
 
 ### 10.2 跑确定性回归
 
@@ -393,12 +410,15 @@ cd /home/quyu/ai_interview/ai_gongwu_backend
 
 ## 12. 当前文档索引
 
+如果你是日常维护者，建议先看 [docs/使用与维护与测试说明.md](docs/使用与维护与测试说明.md)；本 README 继续主要承担项目总览职责。
+
 1. [docs/项目修改记录.md](/home/quyu/ai_interview/docs/项目修改记录.md)
-2. [docs/回归与标定说明.md](/home/quyu/ai_interview/docs/回归与标定说明.md)
-3. [ai_gongwu_backend/assets/questions/README.md](/home/quyu/ai_interview/ai_gongwu_backend/assets/questions/README.md)
-4. [ai_gongwu_backend/assets/regression_samples/README.md](/home/quyu/ai_interview/ai_gongwu_backend/assets/regression_samples/README.md)
-5. [reports/regression/README.md](/home/quyu/ai_interview/reports/regression/README.md)
-6. [sample_sets/README.md](/home/quyu/ai_interview/sample_sets/README.md)
+2. [docs/使用与维护与测试说明.md](docs/使用与维护与测试说明.md)
+3. [docs/回归与标定说明.md](/home/quyu/ai_interview/docs/回归与标定说明.md)
+4. [ai_gongwu_backend/assets/questions/README.md](/home/quyu/ai_interview/ai_gongwu_backend/assets/questions/README.md)
+5. [ai_gongwu_backend/assets/regression_samples/README.md](/home/quyu/ai_interview/ai_gongwu_backend/assets/regression_samples/README.md)
+6. [reports/regression/README.md](/home/quyu/ai_interview/reports/regression/README.md)
+7. [sample_sets/README.md](/home/quyu/ai_interview/sample_sets/README.md)
 
 ---
 
