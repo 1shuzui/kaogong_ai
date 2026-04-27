@@ -2,12 +2,12 @@
 
 import unittest
 from pathlib import Path
-from tempfile import TemporaryDirectory
 
 from scripts.extract_docx_text import extract_docx_text
 from scripts.import_question_bank import (
     activate_profile,
     build_runtime_profile,
+    build_interpersonal_template_texts,
     detect_template_family,
     extract_sections,
     normalize_question_id,
@@ -97,34 +97,82 @@ class ImportQuestionBankNormalizationTestCase(unittest.TestCase):
         )
 
     def test_build_runtime_profile_supports_future_region_import_without_new_wrapper(self):
-        with TemporaryDirectory() as temp_dir:
-            temp_root = Path(temp_dir)
-            source_a = temp_root / "广东-2025.extracted.txt"
-            source_b = temp_root / "广东-2024.extracted.txt"
-            source_a.write_text("题号：GD20250101_01", encoding="utf-8")
-            source_b.write_text("题号：GD20240101_01", encoding="utf-8")
+        temp_root = Path(__file__).resolve().parent / "_profile_args"
+        source_a = temp_root / "广东-2025.extracted.txt"
+        source_b = temp_root / "广东-2024.extracted.txt"
 
-            profile = build_runtime_profile(
-                "guangdong",
-                "广东",
-                [source_a, source_b],
-            )
+        profile = build_runtime_profile(
+            "guangdong",
+            "广东",
+            [source_a, source_b],
+        )
 
-            self.assertEqual(profile.name, "guangdong")
-            self.assertEqual(profile.default_province, "广东")
-            self.assertEqual(profile.question_output_dir.name, "generated_guangdong")
-            self.assertEqual(profile.sample_output_dir.name, "generated_guangdong")
-            self.assertEqual(profile.summary_path.name, "import_summary.txt")
-            self.assertEqual(profile.source_priority[source_a.name], 2)
-            self.assertEqual(profile.source_priority[source_b.name], 1)
+        self.assertEqual(profile.name, "guangdong")
+        self.assertEqual(profile.default_province, "广东")
+        self.assertEqual(profile.question_output_dir.name, "generated_guangdong")
+        self.assertEqual(profile.sample_output_dir.name, "generated_guangdong")
+        self.assertEqual(profile.summary_path.name, "import_summary.txt")
+        self.assertEqual(profile.source_priority[source_a.name], 2)
+        self.assertEqual(profile.source_priority[source_b.name], 1)
 
-            original_profile = activate_profile("hunan")
-            try:
-                active = activate_profile(profile)
-                self.assertEqual(active.name, "guangdong")
-                self.assertEqual(active.default_province, "广东")
-            finally:
-                activate_profile(original_profile)
+        original_profile = activate_profile("hunan")
+        try:
+            active = activate_profile(profile)
+            self.assertEqual(active.name, "guangdong")
+            self.assertEqual(active.default_province, "广东")
+        finally:
+            activate_profile(original_profile)
+
+    def test_interpersonal_mid_templates_cover_responsibility_and_followup(self):
+        question_data = {
+            "type": "人际沟通·责任担当",
+            "province": "安徽",
+            "question": "你协助一位同事工作，但因你的失误导致同事被领导批评，你怎么办？",
+            "dimensions": [
+                {"name": "主动担责", "score": 10},
+                {"name": "工作补救", "score": 8},
+                {"name": "反思提升", "score": 6},
+            ],
+            "coreKeywords": ["失误", "担责", "认错", "补救"],
+            "strongKeywords": ["同事", "领导", "团队"],
+            "weakKeywords": [],
+            "scoringCriteria": ["主动担责", "工作补救", "反思提升"],
+            "deductionRules": [],
+            "tags": ["人际沟通"],
+        }
+
+        variants = [text for text, _, _ in build_interpersonal_template_texts(question_data, "mid")]
+        joined = "\n".join(variants)
+
+        self.assertIn("同事", joined)
+        self.assertIn("责任", joined)
+        self.assertTrue(any(token in joined for token in ("补上", "补救", "跟进", "改进")))
+        self.assertNotIn("参与对象", joined)
+
+    def test_interpersonal_mid_templates_can_point_back_to_frontline_work_style(self):
+        question_data = {
+            "type": "人际沟通·同事劝导",
+            "province": "安徽",
+            "question": "小李总喜欢在朋友圈“做调研”，在微信群里“下基层”，你作为同事怎么劝他？",
+            "dimensions": [
+                {"name": "沟通态度与语气", "score": 5},
+                {"name": "基层作风重要性论述", "score": 7},
+                {"name": "引导建议与同事互助", "score": 4},
+            ],
+            "coreKeywords": ["朋友圈", "微信群", "基层", "劝导"],
+            "strongKeywords": ["一线", "入户", "同事"],
+            "weakKeywords": [],
+            "scoringCriteria": ["沟通态度", "基层作风", "引导建议"],
+            "deductionRules": [],
+            "tags": ["人际沟通", "基层作风"],
+        }
+
+        variants = [text for text, _, _ in build_interpersonal_template_texts(question_data, "mid")]
+        joined = "\n".join(variants)
+
+        self.assertIn("同事", joined)
+        self.assertTrue(any(token in joined for token in ("一线", "基层", "走一走", "入户")))
+        self.assertTrue(any(token in joined for token in ("跟进", "一起", "方法", "作风")))
 
 
 if __name__ == "__main__":

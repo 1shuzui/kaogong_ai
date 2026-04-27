@@ -122,18 +122,18 @@
       "label": "程序化中档参考答案",
       "sample_path": "assets/regression_samples/generated_hunan/HN-20200922-XZ-03/reference_mid.txt",
       "expected_min": 9.3,
-      "expected_max": 12.3,
-      "llmExpectedMin": 9.8,
-      "llmExpectedMax": 14.4,
+      "expected_max": 12.2,
+      "llmExpectedMin": 9.7,
+      "llmExpectedMax": 14.3,
       "notes": "基于高分答案程序化压缩生成；策略=template_organization_mid_1，句数=7，截断=none，关键词削弱=medium。"
     },
     {
       "label": "程序化低档参考答案",
       "sample_path": "assets/regression_samples/generated_hunan/HN-20200922-XZ-03/reference_low.txt",
       "expected_min": 6.3,
-      "expected_max": 9.3,
+      "expected_max": 9.2,
       "llmExpectedMin": 5.1,
-      "llmExpectedMax": 9.3,
+      "llmExpectedMax": 9.2,
       "notes": "基于高分答案程序化降档生成；策略=template_organization_low_3，句数=5，截断=none，关键词削弱=medium，口语化=是。"
     }
   ]

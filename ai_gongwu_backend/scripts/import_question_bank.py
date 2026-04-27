@@ -1843,6 +1843,12 @@ def infer_target_group(question_data: dict[str, Any], *, generic: bool = False) 
         ("餐饮经营者", "餐饮经营者"),
         ("经营者", "经营者"),
         ("老板", "商户和老板"),
+        ("同事", "同事"),
+        ("同仁", "同事"),
+        ("小李", "小李"),
+        ("领导", "领导"),
+        ("下属", "下属"),
+        ("家属", "家属"),
         ("社区", "社区居民"),
         ("服刑人员", "服刑人员"),
         ("罪犯", "服刑人员"),
@@ -1850,6 +1856,9 @@ def infer_target_group(question_data: dict[str, Any], *, generic: bool = False) 
         ("老年", "老年人"),
         ("老人", "老年人"),
         ("群众", "群众"),
+        ("村民", "村民"),
+        ("来访群众", "来访群众"),
+        ("信访人", "来访群众"),
         ("居民", "居民"),
         ("学生", "学生"),
         ("游客", "游客"),
@@ -1906,6 +1915,122 @@ def infer_topic_phrase(question_data: dict[str, Any], *, generic: bool = False) 
         if generic or keyword not in noise:
             return keyword
     return "相关内容" if generic else "这项工作"
+
+
+def _extract_dimension_names(question_data: dict[str, Any]) -> list[str]:
+    """提取题目维度名，供模板补足场景动作时使用。"""
+
+    dimension_names: list[str] = []
+    for item in question_data.get("dimensions", []):
+        if isinstance(item, dict):
+            name = str(item.get("name", "")).strip()
+        else:
+            name = str(getattr(item, "name", "")).strip()
+        if name:
+            dimension_names.append(name)
+    return dimension_names
+
+
+def _build_interpersonal_focus_clauses(question_data: dict[str, Any]) -> list[str]:
+    """为人际题补一组更贴场景的中档动作句。"""
+
+    target_group = infer_target_group(question_data, generic=False)
+    topic = infer_topic_phrase(question_data, generic=False)
+    role_focus = infer_role_focus(question_data)
+    haystack = " ".join(
+        [
+            build_question_haystack(question_data),
+            " ".join(_extract_dimension_names(question_data)),
+            " ".join(question_data.get("scoringCriteria", [])),
+            " ".join(question_data.get("deductionRules", [])),
+        ]
+    )
+    clauses: list[str] = []
+
+    def add_clause(text: str) -> None:
+        if text and text not in clauses:
+            clauses.append(text)
+
+    if any(marker in haystack for marker in ("失误", "担责", "责任", "认错", "补救", "整改")):
+        add_clause("这类情况不能只停在安抚上，该认的责任要认清楚，该澄清的事实也要当面说透。")
+        add_clause(
+            f"如果问题和{topic}有关，我会把来龙去脉讲明白，再把能马上补上的环节尽快补上，别让{target_group}继续替别人扛着。"
+        )
+
+    if any(marker in haystack for marker in ("偏见", "误解", "误会", "信任", "建议", "未采纳", "成长", "培养", "平台")):
+        add_clause(
+            f"如果对方心里已经有了偏见或误会，我会重点把工作判断、现实条件和为什么暂时没采纳讲清楚，不让{target_group}把事情理解成针对个人。"
+        )
+        add_clause(
+            f"说完原因还不够，我会再给一个后续帮带或跟进安排，让{target_group}看到在{role_focus}里还有成长空间，不是谈完就算。"
+        )
+
+    if any(marker in haystack for marker in ("群众", "居民", "村民", "矛盾", "情绪", "安抚", "来访", "信访")):
+        add_clause("碰到情绪和矛盾比较重的情况，我会先把情绪接住，再把政策边界、能处理到哪一步和后续推进方式说清楚。")
+        add_clause(
+            f"能当场协调的就尽量当场推动，暂时解决不了的也会给出跟进节点，避免{target_group}只听到态度、看不到动作。"
+        )
+
+    if any(marker in haystack for marker in ("朋友圈", "微信群", "线上", "云调研", "基层", "入户", "一线", "地头", "实地")):
+        add_clause(
+            f"这道题更关键的是把线上了解和真正下到一线的差别讲透，让{target_group}明白{role_focus}不能只停在表面信息上。"
+        )
+        add_clause("后面我会把改法说得务实一点，比如跟着一起下去走一走、看一看、听一听，把作风和方法慢慢扭回来。")
+
+    if any(marker in haystack for marker in ("领导", "机关", "同事", "团队", "协作")):
+        add_clause(f"沟通里既要顾及关系，也要把组织要求和工作标准摆出来，不能只顾把话说软、不顾{role_focus}真正要落的要求。")
+
+    if not clauses:
+        add_clause(
+            f"这类题不能只做情绪安抚，我会把{target_group}最在意的问题、{topic}背后的实际情况和后续怎么跟进三件事连起来说。"
+        )
+        add_clause(f"既把话说软一点，也把{role_focus}里该有的标准讲清楚，这样沟通才不容易发空。")
+
+    return clauses[:5]
+
+
+def _build_interpersonal_mid_openings(question_data: dict[str, Any]) -> list[str]:
+    """给人际题中档样本准备几句不完全同质化的开场。"""
+
+    target_group = infer_target_group(question_data, generic=False)
+    haystack = build_question_haystack(question_data)
+    if any(marker in haystack for marker in ("失误", "担责", "责任", "认错")):
+        return [
+            f"如果是我来和{target_group}沟通，我不会先急着替自己找理由，而是先把态度摆正，把事实捋清楚。",
+            f"这类题我会先正面回应问题本身，尤其是和{target_group}之间的责任边界，不能让误会一直悬着。",
+            f"我会先把话说坦诚一点，让{target_group}感受到我是来解决问题的，不是来把事情糊过去的。",
+        ]
+    if any(marker in haystack for marker in ("偏见", "误解", "误会", "建议", "成长", "培养")):
+        return [
+            f"面对{target_group}已经有情绪和心结的情况，我会先把关系稳住，再谈事情本身。",
+            f"如果是我来谈，我会先认可{target_group}身上的积极面，避免一开口就把话谈僵。",
+            f"这类题我会先让{target_group}把心里的顾虑说出来，再回到工作判断和后续带人的节奏上。",
+        ]
+    if any(marker in haystack for marker in ("朋友圈", "微信群", "线上", "基层", "入户", "一线")):
+        return [
+            f"如果是我来和{target_group}聊这件事，我会先肯定积极性，再把问题真正卡在哪里点出来。",
+            f"这类题我不会一上来就否定{target_group}，而是先说明为什么这种做法看着忙、实际还不够到位。",
+            f"我会先把气氛放缓一点，让{target_group}愿意继续听，再顺着作风和方法把话谈实。",
+        ]
+    return [
+        f"如果是我来和{target_group}沟通，我会先把态度放稳一点，先听清楚对方现在最在意的点。",
+        f"我会先把关系稳住，再把事情的来龙去脉和当前卡点讲清楚，避免一开始就只剩下情绪对冲。",
+        f"这类题我会先把人稳住、把事讲清，再把后续怎么跟进交代出来。",
+    ]
+
+
+def _build_interpersonal_mid_closing(question_data: dict[str, Any]) -> str:
+    """给人际题中档样本补一个更像作答收束的结尾。"""
+
+    haystack = build_question_haystack(question_data)
+    role_focus = infer_role_focus(question_data)
+    if any(marker in haystack for marker in ("失误", "担责", "责任", "补救")):
+        return f"总的来说，既要把话谈开，也要把事情补回来，这样才算把{role_focus}里该有的担当落到位。"
+    if any(marker in haystack for marker in ("偏见", "误解", "成长", "培养", "平台")):
+        return f"这样既能把心结解开，也能把后面的培养和跟进接上，更符合{role_focus}里带人做事的节奏。"
+    if any(marker in haystack for marker in ("朋友圈", "微信群", "线上", "基层", "入户", "一线")):
+        return f"这样既不是简单批评，也能把作风和方法慢慢扭到{role_focus}真正需要的方向上。"
+    return f"这样既顾到了对方感受，也把{role_focus}里该回应的问题和后续动作交代清楚了。"
 
 
 def clean_question_type(raw_type: str, header_description: str) -> str:
@@ -2131,33 +2256,34 @@ def build_interpersonal_template_texts(question_data: dict[str, Any], mode: str)
     target_group = infer_target_group(question_data, generic=False)
     topic = infer_topic_phrase(question_data, generic=False)
     if mode == "mid":
+        openings = _build_interpersonal_mid_openings(question_data)
+        focus_clauses = _build_interpersonal_focus_clauses(question_data)
+        closing = _build_interpersonal_mid_closing(question_data)
+
+        def build_variant(opening_index: int, clause_indexes: tuple[int, ...]) -> str:
+            selected = [
+                focus_clauses[index]
+                for index in clause_indexes
+                if index < len(focus_clauses)
+            ]
+            if len(selected) < 2:
+                selected = focus_clauses[:2]
+            parts = [openings[min(opening_index, len(openings) - 1)], *selected, closing]
+            return " ".join(part for part in parts if part)
+
         return [
             (
-                (
-                    f"如果是我来沟通，我会先把态度放缓一点，先听听{target_group}真正担心什么。 "
-                    f"然后再把和{topic}有关的情况解释清楚，至少让对方知道这件事为什么要做、现在卡在哪里。 "
-                    "沟通的时候我不会一上来就强调要求，而是先把情绪稳住，再把能协调的地方说清楚。 "
-                    "最后我会留一个继续联系的口子，避免一次谈完就结束。"
-                ),
+                build_variant(0, (0, 1)),
                 "medium",
                 False,
             ),
             (
-                (
-                    "我觉得这类题关键还是先把关系稳住。 "
-                    f"面对{target_group}，我会先表示理解，再把事情的来龙去脉和基本想法讲清楚。 "
-                    f"如果对方对{topic}还有顾虑，我会先回应最核心的问题，不急着一次把所有内容都讲满。 "
-                    "后面再看对方反应，边沟通边调整。"
-                ),
+                build_variant(1, (1, 2)),
                 "medium",
                 False,
             ),
             (
-                (
-                    "这类沟通题我会先重态度、再重解释。 "
-                    f"先让{target_group}感受到我是在解决问题，不是在和他争。 "
-                    f"然后再围绕{topic}把基本情况说明白，能当场解决的先处理，不能马上解决的后面继续跟。"
-                ),
+                build_variant(2, (0, 2)),
                 "heavy",
                 False,
             ),

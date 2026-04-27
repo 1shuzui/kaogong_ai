@@ -107,11 +107,11 @@
     {
       "label": "程序化中档参考答案",
       "sample_path": "assets/regression_samples/generated_anhui/AHGWY-20250517-03/reference_mid.txt",
-      "expected_min": 7.3,
-      "expected_max": 12.3,
+      "expected_min": 8.3,
+      "expected_max": 13.3,
       "llmExpectedMin": 9.5,
-      "llmExpectedMax": 13.2,
-      "notes": "基于高分答案程序化压缩生成；策略=template_interpersonal_mid_1，句数=3，截断=none，关键词削弱=medium。"
+      "llmExpectedMax": 14.2,
+      "notes": "基于高分答案程序化压缩生成；策略=template_interpersonal_mid_1，句数=4，截断=none，关键词削弱=medium。"
     },
     {
       "label": "程序化低档参考答案",

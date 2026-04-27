@@ -663,13 +663,13 @@
         "effective_length": 393
       },
       "mid": {
-        "score": 9.6,
-        "strategy": "template_interpersonal_mid_1",
-        "count": 3,
+        "score": 10.0,
+        "strategy": "template_interpersonal_mid_2",
+        "count": 4,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 111
+        "effective_length": 180
       },
       "low": {
         "score": 6.9,
@@ -1040,13 +1040,13 @@
         "effective_length": 1435
       },
       "mid": {
-        "score": 8.9,
-        "strategy": "template_interpersonal_mid_1",
-        "count": 3,
+        "score": 8.7,
+        "strategy": "template_interpersonal_mid_2",
+        "count": 4,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 113
+        "effective_length": 183
       },
       "low": {
         "score": 6.2,
@@ -1446,13 +1446,13 @@
         "effective_length": 1511
       },
       "mid": {
-        "score": 9.5,
+        "score": 7.7,
         "strategy": "template_interpersonal_mid_1",
-        "count": 3,
+        "count": 4,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 113
+        "effective_length": 187
       },
       "low": {
         "score": 6.4,
@@ -1823,13 +1823,13 @@
         "effective_length": 1846
       },
       "mid": {
-        "score": 8.8,
-        "strategy": "template_interpersonal_mid_1",
-        "count": 3,
+        "score": 7.1,
+        "strategy": "template_interpersonal_mid_2",
+        "count": 4,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 113
+        "effective_length": 170
       },
       "low": {
         "score": 6.1,
@@ -1939,13 +1939,13 @@
         "effective_length": 813
       },
       "mid": {
-        "score": 10.5,
+        "score": 10.3,
         "strategy": "template_scene_mid_1",
-        "count": 8,
+        "count": 7,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 262
+        "effective_length": 249
       },
       "low": {
         "score": 9.5,
@@ -1954,7 +1954,7 @@
         "trim_chars": null,
         "sanitization": "medium",
         "oral": true,
-        "effective_length": 214
+        "effective_length": 210
       }
     },
     "AHGWY-20250516-04": {
@@ -2055,13 +2055,13 @@
         "effective_length": 740
       },
       "mid": {
-        "score": 9.8,
+        "score": 10.8,
         "strategy": "template_interpersonal_mid_1",
-        "count": 3,
+        "count": 4,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 113
+        "effective_length": 159
       },
       "low": {
         "score": 6.5,
@@ -2171,22 +2171,22 @@
         "effective_length": 1203
       },
       "mid": {
-        "score": 3.1,
-        "strategy": "template_interpersonal_mid_1",
-        "count": 3,
+        "score": 3.4,
+        "strategy": "template_interpersonal_mid_2",
+        "count": 4,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 111
+        "effective_length": 180
       },
       "low": {
         "score": 2.2,
-        "strategy": "template_interpersonal_low_2",
-        "count": 2,
+        "strategy": "template_interpersonal_low_1",
+        "count": 3,
         "trim_chars": null,
         "sanitization": "heavy",
         "oral": true,
-        "effective_length": 53
+        "effective_length": 90
       }
     },
     "AHGX-20201227-01": {
@@ -2403,22 +2403,22 @@
         "effective_length": 519
       },
       "mid": {
-        "score": 12.2,
+        "score": 10.9,
         "strategy": "template_scene_mid_1",
-        "count": 8,
+        "count": 7,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 262
+        "effective_length": 247
       },
       "low": {
-        "score": 11.1,
+        "score": 9.8,
         "strategy": "template_scene_low_3",
         "count": 7,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": true,
-        "effective_length": 214
+        "effective_length": 208
       }
     },
     "AHGX-20210117-03": {
@@ -2438,16 +2438,16 @@
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 257
+        "effective_length": 251
       },
       "low": {
-        "score": 4.4,
-        "strategy": "template_organization_low_2",
-        "count": 6,
+        "score": 4.2,
+        "strategy": "template_organization_low_3",
+        "count": 5,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": true,
-        "effective_length": 191
+        "effective_length": 174
       }
     },
     "AHJW-20240921-01": {
@@ -2490,13 +2490,13 @@
         "effective_length": 2021
       },
       "mid": {
-        "score": 9.1,
-        "strategy": "template_interpersonal_mid_1",
-        "count": 3,
+        "score": 8.6,
+        "strategy": "template_interpersonal_mid_2",
+        "count": 4,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 113
+        "effective_length": 182
       },
       "low": {
         "score": 6.3,
@@ -2606,22 +2606,22 @@
         "effective_length": 389
       },
       "mid": {
-        "score": 12.6,
+        "score": 11.8,
         "strategy": "template_scene_mid_1",
-        "count": 8,
+        "count": 7,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 264
+        "effective_length": 249
       },
       "low": {
-        "score": 11.0,
+        "score": 10.9,
         "strategy": "template_scene_low_3",
-        "count": 6,
+        "count": 7,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": true,
-        "effective_length": 184
+        "effective_length": 210
       }
     },
     "AHKS-20210618-04": {
@@ -2722,7 +2722,7 @@
         "effective_length": 429
       },
       "mid": {
-        "score": 12.7,
+        "score": 14.2,
         "strategy": "template_scene_mid_1",
         "count": 7,
         "trim_chars": null,
@@ -2731,7 +2731,7 @@
         "effective_length": 247
       },
       "low": {
-        "score": 11.7,
+        "score": 13.2,
         "strategy": "template_scene_low_3",
         "count": 7,
         "trim_chars": null,
@@ -2867,13 +2867,13 @@
         "effective_length": 587
       },
       "mid": {
-        "score": 5.3,
-        "strategy": "template_interpersonal_mid_1",
-        "count": 3,
+        "score": 5.8,
+        "strategy": "template_interpersonal_mid_2",
+        "count": 4,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 116
+        "effective_length": 177
       },
       "low": {
         "score": 3.4,
@@ -2954,13 +2954,13 @@
         "effective_length": 372
       },
       "mid": {
-        "score": 8.1,
+        "score": 8.4,
         "strategy": "template_interpersonal_mid_1",
-        "count": 3,
+        "count": 4,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 109
+        "effective_length": 178
       },
       "low": {
         "score": 5.1,
@@ -3186,13 +3186,13 @@
         "effective_length": 335
       },
       "mid": {
-        "score": 7.6,
+        "score": 6.9,
         "strategy": "template_interpersonal_mid_1",
-        "count": 3,
+        "count": 4,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 112
+        "effective_length": 178
       },
       "low": {
         "score": 5.2,
@@ -3302,13 +3302,13 @@
         "effective_length": 648
       },
       "mid": {
-        "score": 7.4,
+        "score": 6.8,
         "strategy": "template_interpersonal_mid_1",
-        "count": 3,
+        "count": 4,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 112
+        "effective_length": 191
       },
       "low": {
         "score": 4.7,
@@ -3650,13 +3650,13 @@
         "effective_length": 374
       },
       "mid": {
-        "score": 7.8,
-        "strategy": "template_interpersonal_mid_1",
-        "count": 3,
+        "score": 7.9,
+        "strategy": "template_interpersonal_mid_2",
+        "count": 4,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 111
+        "effective_length": 180
       },
       "low": {
         "score": 5.0,
@@ -3853,13 +3853,13 @@
         "effective_length": 463
       },
       "mid": {
-        "score": 10.3,
-        "strategy": "template_interpersonal_mid_1",
-        "count": 3,
+        "score": 9.2,
+        "strategy": "template_interpersonal_mid_2",
+        "count": 4,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 110
+        "effective_length": 170
       },
       "low": {
         "score": 6.8,
@@ -3969,13 +3969,13 @@
         "effective_length": 397
       },
       "mid": {
-        "score": 5.2,
-        "strategy": "template_interpersonal_mid_1",
-        "count": 3,
+        "score": 5.6,
+        "strategy": "template_interpersonal_mid_2",
+        "count": 4,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 111
+        "effective_length": 177
       },
       "low": {
         "score": 3.5,
@@ -4348,20 +4348,20 @@
       "mid": {
         "score": 3.2,
         "strategy": "template_scene_mid_1",
-        "count": 8,
+        "count": 7,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": false,
-        "effective_length": 260
+        "effective_length": 247
       },
       "low": {
-        "score": 3.0,
-        "strategy": "template_scene_low_2",
+        "score": 2.9,
+        "strategy": "template_scene_low_3",
         "count": 7,
         "trim_chars": null,
         "sanitization": "medium",
         "oral": true,
-        "effective_length": 204
+        "effective_length": 208
       }
     },
     "AHXF-20220311-04": {
