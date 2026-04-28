@@ -2,7 +2,7 @@
 
 ## 1. 项目定位
 
-这是一个面向“公考面试作答测评”的后端项目，目标不是简单让大模型直接打分，而是把评分拆成更可控的工程链路：
+这是一个面向“公考面试作答测评”的评分引擎项目，目标不是简单让大模型直接打分，而是把评分拆成更可控的工程链路：
 
 1. 接收文本、音频、视频作答。
 2. 将音视频转成可分析的 `transcript`。
@@ -12,6 +12,15 @@
 6. 支持回归测试、LLM 标定和题库样本迭代。
 
 当前核心代码位于 [ai_gongwu_backend](/home/quyu/ai_interview/ai_gongwu_backend)。
+
+在当前本地工作区里，它同时也是 `/home/quyu/kaogong_ai` 这套完整演示工程的评分内核：
+
+1. `ai_interview/ai_gongwu_backend`
+   角色：评分引擎与落库内核。
+2. `kaogong_ai/civil-interview-backend`
+   角色：前端兼容业务后端。
+3. `kaogong_ai/civil-interview-frontend`
+   角色：客户演示用 Vue 页面。
 
 ---
 
@@ -51,7 +60,33 @@
 
 ---
 
-## 3. 目录结构
+## 3. 与 kaogong_ai 的联调关系
+
+如果你只调评分链路，本仓库就够了。
+
+如果你要“在前端页面上向客户展示功能”，当前推荐的本地联调关系是：
+
+```text
+civil-interview-frontend (3001)
+        |
+        |  /api 代理
+        v
+civil-interview-backend (8050)
+        |
+        |  直接 Python 导入
+        v
+ai_gongwu_backend / ai_gongwu.db / 题库与评分引擎
+```
+
+这意味着：
+
+1. 页面演示时，前端并不是直接请求 `ai_gongwu_backend`。
+2. `civil-interview-backend` 会直接复用本仓库里的 `QuestionBank`、`InterviewFlowService`、`EvaluationStore`。
+3. `ai_gongwu_backend` 自己单独起一个 `9000` 端口更适合做 Swagger 调试、健康检查和接口核验，不是前端必须依赖的那一层。
+
+---
+
+## 4. 目录结构
 
 建议先从下面这个结构理解项目：
 
@@ -108,9 +143,9 @@ ai_interview/
 
 ---
 
-## 4. 三条核心链路
+## 5. 三条核心链路
 
-### 4.1 测评链路
+### 5.1 测评链路
 
 核心入口是 [flow.py](/home/quyu/ai_interview/ai_gongwu_backend/app/services/flow.py)。
 
@@ -125,7 +160,7 @@ ai_interview/
 7. `calculator.py` 做确定性后处理。
 8. 若允许持久化，则把 Prompt、原始输出、最终结果一起落库。
 
-### 4.2 题库导入链路
+### 5.2 题库导入链路
 
 核心脚本是 [import_hunan_question_bank.py](/home/quyu/ai_interview/ai_gongwu_backend/scripts/import_hunan_question_bank.py)。
 
@@ -141,7 +176,7 @@ ai_interview/
    - `llmExpectedMin`
    - `llmExpectedMax`
 
-### 4.3 回归 / 标定链路
+### 5.3 回归 / 标定链路
 
 当前有两套脚本：
 
@@ -159,9 +194,9 @@ ai_interview/
 
 ---
 
-## 5. 关键模块说明
+## 6. 关键模块说明
 
-### 5.1 [interview.py](/home/quyu/ai_interview/ai_gongwu_backend/app/api/endpoints/interview.py)
+### 6.1 [interview.py](/home/quyu/ai_interview/ai_gongwu_backend/app/api/endpoints/interview.py)
 
 接口层，负责：
 
@@ -170,7 +205,7 @@ ai_interview/
 3. 音视频测评接口
 4. 测评记录列表与详情接口
 
-### 5.2 [schemas.py](/home/quyu/ai_interview/ai_gongwu_backend/app/models/schemas.py)
+### 6.2 [schemas.py](/home/quyu/ai_interview/ai_gongwu_backend/app/models/schemas.py)
 
 数据合同层，定义：
 
@@ -186,7 +221,7 @@ ai_interview/
 3. `llmExpectedMin`
 4. `llmExpectedMax`
 
-### 5.3 [prompts.py](/home/quyu/ai_interview/ai_gongwu_backend/app/services/scoring/prompts.py)
+### 6.3 [prompts.py](/home/quyu/ai_interview/ai_gongwu_backend/app/services/scoring/prompts.py)
 
 Prompt 构造层，负责：
 
@@ -194,7 +229,7 @@ Prompt 构造层，负责：
 2. 第二阶段证据约束评分 Prompt
 3. 按题目动态生成本土化 / 岗位化提示，不再写死河南模板
 
-### 5.4 [calculator.py](/home/quyu/ai_interview/ai_gongwu_backend/app/services/scoring/calculator.py)
+### 6.4 [calculator.py](/home/quyu/ai_interview/ai_gongwu_backend/app/services/scoring/calculator.py)
 
 确定性后处理层，负责：
 
@@ -206,22 +241,38 @@ Prompt 构造层，负责：
 
 ---
 
-## 6. 环境准备
+## 7. 环境准备
 
 推荐使用 Python 3.10 及以上版本。
+
+当前本地建议统一使用项目根目录下的虚拟环境：
 
 ```bash
 cd /home/quyu/ai_interview
 python3 -m venv .venv
-source .venv/bin/activate
-pip install -r ai_gongwu_backend/requirements.txt
+./.venv/bin/python -m pip install --upgrade pip setuptools wheel
 ```
 
-如果你已经在后端目录里维护虚拟环境，也可以直接使用：
+然后安装评分引擎和 `kaogong_ai` 兼容后端依赖：
 
 ```bash
-cd /home/quyu/ai_interview/ai_gongwu_backend
-./venv/bin/pip install -r requirements.txt
+cd /home/quyu/ai_interview
+./.venv/bin/pip install --index-url https://download.pytorch.org/whl/cpu torch
+./.venv/bin/pip install -r ai_gongwu_backend/requirements.txt
+./.venv/bin/pip install -r /home/quyu/kaogong_ai/civil-interview-backend/requirements.txt
+./.venv/bin/pip install python-dotenv
+```
+
+说明：
+
+1. 本地联调优先推荐 CPU 版 `torch`
+2. 先单独装 `torch`，再装其余依赖，可以避免 `pip` 自动拉取体积更大的 CUDA 版包
+
+前端依赖单独安装：
+
+```bash
+cd /home/quyu/kaogong_ai/civil-interview-frontend
+npm install
 ```
 
 系统依赖建议：
@@ -231,9 +282,15 @@ cd /home/quyu/ai_interview/ai_gongwu_backend
 3. `openai-whisper`
 4. `opencv-python-headless`
 
+当前本机已验证：
+
+1. `ffmpeg` 可用
+2. 根 `.venv` 可用
+3. `civil-interview-frontend` 可完成 `npm run build`
+
 ---
 
-## 7. 环境变量
+## 8. 环境变量
 
 建议在 [ai_gongwu_backend](/home/quyu/ai_interview/ai_gongwu_backend) 下准备 `.env`：
 
@@ -262,7 +319,7 @@ MAX_RATIONALE_CHARS=400
 
 ---
 
-## 8. 启动项目
+## 9. 启动项目
 
 如果你要看本地启动、日常维护、测试与排障的完整操作手册，请优先阅读 [docs/使用与维护与测试说明.md](docs/使用与维护与测试说明.md)。
 
@@ -290,38 +347,143 @@ python -m app.main
 ```bash
 cd /home/quyu/ai_interview/ai_gongwu_backend
 bash run.sh
+=======
+### 9.1 只启动评分引擎
+
+```bash
+cd /home/quyu/ai_interview/ai_gongwu_backend
+/home/quyu/ai_interview/.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 9000 --reload
+>>>>>>> Stashed changes
 ```
 
 启动后访问：
 
 ```text
 http://127.0.0.1:9000/docs
+http://127.0.0.1:9000/health
+```
+
+### 9.2 启动客户演示最小闭环
+
+页面演示推荐至少起这两层：
+
+1. `civil-interview-backend`
+2. `civil-interview-frontend`
+
+如果只是本地演示，先强制走规则兜底，避免页面因为模型密钥或外网抖动而失败：
+
+```bash
+cd /home/quyu/kaogong_ai/civil-interview-backend
+LLM_API_KEY='' COMPAT_FORCE_RULE_BASED=true /home/quyu/ai_interview/.venv/bin/python -m uvicorn main:app --host 127.0.0.1 --port 8050
+```
+
+再起前端：
+
+```bash
+cd /home/quyu/kaogong_ai/civil-interview-frontend
+npm run dev -- --host 127.0.0.1 --port 3001
+```
+
+页面地址：
+
+```text
+http://127.0.0.1:3001/
+```
+
+说明：
+
+1. 前端默认把 `/api` 代理到 `http://127.0.0.1:8050`
+2. 因此前端演示时，`8050` 必须在线
+3. `9000` 端口不是前端必须依赖，但建议同时开着，便于你看 Swagger 和原始引擎输出
+
+### 9.3 使用真实模型联调
+
+如果你要演示真实大模型评分：
+
+1. 确保 [ai_gongwu_backend/.env](/home/quyu/ai_interview/ai_gongwu_backend/.env) 里有有效 `LLM_API_KEY`
+2. 启动 `civil-interview-backend` 时不要再传 `COMPAT_FORCE_RULE_BASED=true`
+
+示例：
+
+```bash
+cd /home/quyu/kaogong_ai/civil-interview-backend
+/home/quyu/ai_interview/.venv/bin/python -m uvicorn main:app --host 127.0.0.1 --port 8050
 ```
 
 ---
 
-## 9. 主要接口
+## 10. 如何测试和演示
 
-### 9.1 题目接口
+### 10.1 我已经本地验证通过的项
+
+1. 评分引擎健康检查：
+   - `GET http://127.0.0.1:9000/health`
+2. 兼容后端题库接口：
+   - `GET http://127.0.0.1:8050/questions?page=1&pageSize=2`
+3. 兼容后端评分接口：
+   - `POST http://127.0.0.1:8050/scoring/evaluate`
+4. 前端构建：
+   - `npm run build`
+5. 前端开发页：
+   - `http://127.0.0.1:3001/`
+
+### 10.2 你自己本地最推荐的测试顺序
+
+1. 打开 `http://127.0.0.1:3001/`
+2. 先登录
+   兼容后端当前支持“首次登录自动创建用户”
+3. 进入题库页
+   检查题目是否能正常加载
+4. 进入练习或考试页
+   先用文本评分链路做演示，最稳定
+5. 提交一次作答
+   观察结果页、维度分、评语、关键词命中
+6. 打开历史记录页
+   确认刚才的测评已入库并能回查
+
+### 10.3 给客户演示时建议优先展示的页面
+
+1. 首页 / 登录页
+2. 题库列表页
+3. 考试准备页
+4. 考试作答页
+5. 结果页
+6. 历史记录页
+7. 定向备面 / 专项训练页
+
+### 10.4 演示时最稳的策略
+
+1. 如果网络或模型稳定性不确定，先用：
+   - `LLM_API_KEY=''`
+   - `COMPAT_FORCE_RULE_BASED=true`
+2. 如果客户要看“真实模型效果”，再切回真实模型配置
+3. 音频录制演示前，先确认浏览器已授权麦克风
+4. 如果只是展示流程，不一定要先演示视频上传，文本和音频已经足够说明链路
+
+---
+
+## 11. 主要接口
+
+### 11.1 题目接口
 
 1. `GET /api/v1/interview/questions`
 2. `GET /api/v1/interview/questions/{question_id}`
 
-### 9.2 测评接口
+### 11.2 测评接口
 
 1. `POST /api/v1/interview/evaluate`
    音频 / 视频输入
 2. `POST /api/v1/interview/evaluate/text`
    文本输入
 
-### 9.3 测评记录接口
+### 11.3 测评记录接口
 
 1. `GET /api/v1/interview/records`
 2. `GET /api/v1/interview/records/{record_id}`
 
 ---
 
-## 10. 常用脚本
+## 12. 常用脚本
 
 ### 10.1 重新提取 / 导入题库
 
@@ -338,25 +500,25 @@ cd /home/quyu/ai_interview/ai_gongwu_backend
 2. `assets/regression_samples/generated_hunan/` 或 `assets/regression_samples/generated_anhui/`
 3. 对应目录下的 `import_summary.txt`
 
-### 10.2 跑确定性回归
+### 12.2 跑确定性回归
 
 ```bash
 cd /home/quyu/ai_interview/ai_gongwu_backend
-./venv/bin/python scripts/run_regression.py
+/home/quyu/ai_interview/.venv/bin/python scripts/run_regression.py
 ```
 
-### 10.3 跑真实 LLM 回归
+### 12.3 跑真实 LLM 回归
 
 ```bash
 cd /home/quyu/ai_interview/ai_gongwu_backend
-./venv/bin/python scripts/run_llm_regression.py --repeat 3
+/home/quyu/ai_interview/.venv/bin/python scripts/run_llm_regression.py --repeat 3
 ```
 
-### 10.4 跑真实 LLM 回归并回写区间
+### 12.4 跑真实 LLM 回归并回写区间
 
 ```bash
 cd /home/quyu/ai_interview/ai_gongwu_backend
-./venv/bin/python scripts/run_llm_regression.py --repeat 3 --writeback
+/home/quyu/ai_interview/.venv/bin/python scripts/run_llm_regression.py --repeat 3 --writeback
 ```
 
 说明：
@@ -367,9 +529,9 @@ cd /home/quyu/ai_interview/ai_gongwu_backend
 
 ---
 
-## 11. 题库与样本文件怎么理解
+## 13. 题库与样本文件怎么理解
 
-### 11.1 单题 JSON
+### 13.1 单题 JSON
 
 每题一个 JSON，至少包含：
 
@@ -388,7 +550,7 @@ cd /home/quyu/ai_interview/ai_gongwu_backend
 4. `referenceAnswer`
 5. `tags`
 
-### 11.2 regressionCases
+### 13.2 regressionCases
 
 当前约定每题至少有 3 条：
 
@@ -401,14 +563,16 @@ cd /home/quyu/ai_interview/ai_gongwu_backend
 1. `expected_min/max` 主要对应当前确定性排序结果
 2. `llmExpectedMin/Max` 对应真实大模型回归后的推荐区间
 
-### 11.3 generated_hunan
+### 13.3 generated_hunan
 
 这是脚本自动生成目录，不建议手工逐个改动。  
 如果你调整了导入或样本生成规则，应重新运行导入脚本，让生成产物整体刷新。
 
 ---
 
-## 12. 当前文档索引
+## 14. 当前文档索引
+
+如果你是日常维护者，建议先看 [docs/使用与维护与测试说明.md](docs/使用与维护与测试说明.md)；本 README 继续主要承担项目总览职责。
 
 如果你是日常维护者，建议先看 [docs/使用与维护与测试说明.md](docs/使用与维护与测试说明.md)；本 README 继续主要承担项目总览职责。
 
@@ -422,7 +586,7 @@ cd /home/quyu/ai_interview/ai_gongwu_backend
 
 ---
 
-## 13. 当前注意事项
+## 15. 当前注意事项
 
 1. `sample_sets/` 主要是早期人工整理的河南样本分类目录，不等同于当前 `generated_hunan` 回归集。
 2. 真实 LLM 分数仍然会抖动，所以正式标定建议固定使用 `--repeat 3`。
@@ -432,10 +596,11 @@ cd /home/quyu/ai_interview/ai_gongwu_backend
    - `calculator.py`
    - `import_hunan_question_bank.py`
    最好同步重跑导入和回归，而不是只测单条接口。
+5. 当前仓库本身没有单独的前端工程；你要做页面演示时，应使用同机的 `kaogong_ai/civil-interview-frontend`。
 
 ---
 
-## 14. 后续建议
+## 16. 后续建议
 
 当前最值得继续推进的方向：
 

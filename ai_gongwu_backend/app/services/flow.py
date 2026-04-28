@@ -13,6 +13,7 @@
 
 import json
 import logging
+import re
 from pathlib import Path
 
 from app.core.config import settings
@@ -40,6 +41,78 @@ from app.services.scoring.prompts import (
 )
 
 logger = logging.getLogger(__name__)
+
+RULE_BASED_VIOLATION_PATTERNS = {
+    "abuse": (
+        re.compile(r"傻[逼比bB]"),
+        re.compile(r"煞笔|沙比"),
+        re.compile(r"脑残|智障"),
+        re.compile(r"王八蛋"),
+        re.compile(r"狗东西"),
+        re.compile(r"去死"),
+        re.compile(r"[操草]你"),
+        re.compile(r"他妈的|你妈的|妈的"),
+        re.compile(r"滚蛋"),
+        re.compile(r"废物"),
+        re.compile(r"畜生"),
+        re.compile(r"贱人"),
+    ),
+}
+
+
+def _dedupe_preserve_order(items: list[str]) -> list[str]:
+    """去重但保留原始顺序。"""
+
+    values: list[str] = []
+    seen = set()
+    for item in items:
+        value = str(item).strip()
+        if not value or value in seen:
+            continue
+        values.append(value)
+        seen.add(value)
+    return values
+
+
+def _detect_rule_based_violation(text: str) -> ViolationCheckPayload | None:
+    """先用本地规则拦截最明显的辱骂脏词，避免继续评分。"""
+
+    matched_terms: list[str] = []
+    matched_category = ""
+    for category, patterns in RULE_BASED_VIOLATION_PATTERNS.items():
+        for pattern in patterns:
+            matched_terms.extend(match.group(0) for match in pattern.finditer(text))
+        if matched_terms:
+            matched_category = category
+            break
+
+    cleaned_terms = _dedupe_preserve_order(matched_terms)
+    if not cleaned_terms:
+        return None
+
+    return ViolationCheckPayload(
+        is_violation=True,
+        category=matched_category,
+        matched_terms=cleaned_terms[:5],
+        reason="检测到明显辱骂/攻击性违规词，已终止评分。",
+    )
+
+
+def _normalize_violation_payload(raw_payload: dict | None) -> ViolationCheckPayload:
+    """把模型返回的违规检测结果整理成稳定结构。"""
+
+    try:
+        payload = ViolationCheckPayload.model_validate(raw_payload or {})
+    except Exception:
+        return ViolationCheckPayload()
+
+    return payload.model_copy(
+        update={
+            "category": str(payload.category or "").strip(),
+            "matched_terms": _dedupe_preserve_order(list(payload.matched_terms or []))[:5],
+            "reason": str(payload.reason or "").strip(),
+        }
+    )
 
 
 def _dedupe_preserve_order(items: list[str]) -> list[str]:
