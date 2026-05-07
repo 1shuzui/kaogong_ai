@@ -238,15 +238,24 @@ cd /home/quyu/ai_interview/ai_gongwu_backend
 建议在 [ai_gongwu_backend](/home/quyu/ai_interview/ai_gongwu_backend) 下准备 `.env`：
 
 ```env
-LLM_PROVIDER=QWEN
-LLM_API_KEY=你的密钥
-LLM_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
-LLM_MODEL_NAME=qwen3-coder-plus
+LLM_PROVIDER=DEEPSEEK
+LLM_API_KEY=你的 DeepSeek 密钥
+LLM_BASE_URL=https://api.deepseek.com
+LLM_MODEL_NAME=deepseek-v4-flash
 
 QUESTION_DB_PATH=assets/questions
+ASR_PROVIDER=whisper
+ASR_DEVICE=cpu
 WHISPER_MODEL_SIZE=base
 WHISPER_CPU_THREADS=4
 WHISPER_LANGUAGE=zh
+FUNASR_MODEL_NAME=paraformer-zh
+FUNASR_MODEL_REVISION=v2.0.4
+FUNASR_VAD_MODEL_NAME=fsmn-vad
+FUNASR_VAD_MODEL_REVISION=v2.0.4
+FUNASR_PUNC_MODEL_NAME=ct-punc
+FUNASR_PUNC_MODEL_REVISION=v2.0.4
+MODELSCOPE_CACHE=storage/modelscope_cache
 ENABLE_VISUAL_ANALYSIS=true
 
 MIN_VALID_WORDS=15
@@ -259,6 +268,7 @@ MAX_RATIONALE_CHARS=400
 
 1. `QUESTION_DB_PATH` 现在默认应指向目录，而不是单个题目文件。
 2. 若未配置 `LLM_API_KEY`，系统会回退到确定性评分兜底。
+3. `ASR_PROVIDER` 当前支持 `whisper` 和 `funasr`，需要对比实验时直接切换即可。
 
 ---
 
@@ -359,11 +369,19 @@ cd /home/quyu/ai_interview/ai_gongwu_backend
 ./venv/bin/python scripts/run_llm_regression.py --repeat 3 --writeback
 ```
 
+### 10.5 跑 ASR 小批量基准
+
+```bash
+cd /home/quyu/ai_interview/ai_gongwu_backend
+./venv/bin/python scripts/benchmark_asr.py
+```
+
 说明：
 
 1. `--repeat 3` 用多次采样中位数抵消单次模型波动。
 2. `--writeback` 现在只会对“高 / 中 / 低三档都通过、排序正确、波动可接受”的稳定题目回写 `llmExpectedMin/Max`。
 3. 真正批量标定前，建议先用 `--question-id` 跑小子集。
+4. `benchmark_asr.py` 会对 `Whisper` 和 `FunASR` 各做一次 warm-up，再对 3 条小样本输出 `reports/asr/` 对比报告。
 
 ---
 

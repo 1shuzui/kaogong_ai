@@ -45,10 +45,10 @@ class Settings(BaseSettings):
     # =========================
     # 大模型相关配置
     # =========================
-    LLM_PROVIDER: str = "QWEN"
+    LLM_PROVIDER: str = "DEEPSEEK"
     LLM_API_KEY: str = ""
-    LLM_BASE_URL: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
-    LLM_MODEL_NAME: str = "qwen3-coder-plus"
+    LLM_BASE_URL: str = "https://api.deepseek.com"
+    LLM_MODEL_NAME: str = "deepseek-v4-flash"
     LLM_TIMEOUT_SECONDS: float = 60.0
     LLM_MAX_RETRIES: int = 3
     LLM_TEMPERATURE: float = 0.1
@@ -58,9 +58,18 @@ class Settings(BaseSettings):
     # =========================
     # 语音识别 / 视觉分析相关配置
     # =========================
+    ASR_PROVIDER: str = "whisper"
+    ASR_DEVICE: str = "cpu"
     WHISPER_MODEL_SIZE: str = "base"
     WHISPER_CPU_THREADS: int = 4
     WHISPER_LANGUAGE: str = "zh"
+    FUNASR_MODEL_NAME: str = "paraformer-zh"
+    FUNASR_MODEL_REVISION: str = "v2.0.4"
+    FUNASR_VAD_MODEL_NAME: str = "fsmn-vad"
+    FUNASR_VAD_MODEL_REVISION: str = "v2.0.4"
+    FUNASR_PUNC_MODEL_NAME: str = "ct-punc"
+    FUNASR_PUNC_MODEL_REVISION: str = "v2.0.4"
+    MODELSCOPE_CACHE: str = "storage/modelscope_cache"
     ENABLE_VISUAL_ANALYSIS: bool = True
 
     # =========================
