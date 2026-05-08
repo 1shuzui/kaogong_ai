@@ -22,6 +22,44 @@ from app.services.media.audio_transcriber import get_transcriber
 logger = logging.getLogger(__name__)
 
 
+def get_audio_duration_seconds(audio_path: str) -> float | None:
+    """读取音频时长，优先走本地库，必要时回退到 ffprobe。"""
+
+    try:
+        import soundfile as sf
+
+        with sf.SoundFile(audio_path) as audio_file:
+            if audio_file.samplerate > 0:
+                return round(len(audio_file) / audio_file.samplerate, 3)
+    except Exception:
+        logger.debug("soundfile 读取时长失败，尝试 ffprobe: %s", audio_path, exc_info=True)
+
+    command = [
+        "ffprobe",
+        "-v",
+        "error",
+        "-show_entries",
+        "format=duration",
+        "-of",
+        "default=noprint_wrappers=1:nokey=1",
+        audio_path,
+    ]
+    try:
+        result = subprocess.run(
+            command,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        duration = float(result.stdout.strip())
+        return round(max(duration, 0.0), 3)
+    except FileNotFoundError:
+        logger.warning("系统未安装 ffprobe，无法读取压缩音频时长。")
+    except (subprocess.CalledProcessError, ValueError):
+        logger.warning("读取音频时长失败: %s", audio_path, exc_info=True)
+    return None
+
+
 def extract_audio(video_path: str, output_audio_path: str) -> str:
     """使用 ffmpeg 从视频中提取单声道 16k 音频。
 
@@ -162,6 +200,7 @@ def process_video(video_path: str) -> MediaExtractionResult:
             temp_audio_path = temp_audio.name
 
         extract_audio(video_path, temp_audio_path)
+        duration_seconds = get_audio_duration_seconds(temp_audio_path)
         transcriber = get_transcriber()
         transcript = transcriber.transcribe(temp_audio_path).strip()
         if not transcript:
@@ -172,6 +211,7 @@ def process_video(video_path: str) -> MediaExtractionResult:
         return MediaExtractionResult(
             transcript=transcript,
             source="video",
+            duration_seconds=duration_seconds,
             visual_observation=visual_observation,
         )
     finally:
@@ -185,6 +225,7 @@ def process_video(video_path: str) -> MediaExtractionResult:
 def process_audio(audio_path: str) -> MediaExtractionResult:
     """处理纯音频文件。"""
 
+    duration_seconds = get_audio_duration_seconds(audio_path)
     transcriber = get_transcriber()
     transcript = transcriber.transcribe(audio_path).strip()
     if not transcript:
@@ -193,5 +234,6 @@ def process_audio(audio_path: str) -> MediaExtractionResult:
     return MediaExtractionResult(
         transcript=transcript,
         source="audio",
+        duration_seconds=duration_seconds,
         visual_observation=None,
     )

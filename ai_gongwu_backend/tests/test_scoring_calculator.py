@@ -11,6 +11,7 @@ from app.services.scoring.calculator import (
     _extract_salvageable_fragment,
     apply_post_processing,
     build_deterministic_stage_two_payload,
+    compute_speech_rate_feedback,
     prepare_evidence_packet,
 )
 
@@ -58,6 +59,41 @@ class ScoringCalculatorTestCase(unittest.TestCase):
         self.assertNotIn("为了直播而直播", evidence_texts)
         self.assertTrue(any(item.evidence_type == "absence" for item in evidence_packet.evidence_items))
         self.assertTrue(notes)
+
+    def test_compute_speech_rate_feedback_returns_slow_normal_and_fast(self):
+        slow = compute_speech_rate_feedback(
+            transcript="这是一段用于测试语速的中文作答内容",
+            source="audio",
+            duration_seconds=20.0,
+        )
+        normal = compute_speech_rate_feedback(
+            transcript="这是一段用于测试语速的中文作答内容这是一段用于测试语速的中文作答内容这是一段用于测试语速的中文作答内容这是一段用于测试语速的中文作答内容",
+            source="video",
+            duration_seconds=20.0,
+        )
+        fast = compute_speech_rate_feedback(
+            transcript="这是一段用于测试语速的中文作答内容这是一段用于测试语速的中文作答内容这是一段用于测试语速的中文作答内容这是一段用于测试语速的中文作答内容这是一段用于测试语速的中文作答内容这是一段用于测试语速的中文作答内容这是一段用于测试语速的中文作答内容",
+            source="audio",
+            duration_seconds=20.0,
+        )
+
+        self.assertEqual(slow["speech_rate_level"], "偏慢")
+        self.assertIn("适当加快表达节奏", slow["speech_rate_advice"])
+        self.assertEqual(normal["speech_rate_level"], "正常")
+        self.assertIn("继续保持表达清晰", normal["speech_rate_advice"])
+        self.assertEqual(fast["speech_rate_level"], "偏快")
+        self.assertIn("适当放慢语速", fast["speech_rate_advice"])
+
+    def test_compute_speech_rate_feedback_skips_text_submission(self):
+        result = compute_speech_rate_feedback(
+            transcript="纯文本提交不应伪造语速",
+            source="text",
+            duration_seconds=None,
+        )
+
+        self.assertIsNone(result["speech_rate_chars_per_minute"])
+        self.assertIsNone(result["speech_rate_level"])
+        self.assertEqual(result["speech_rate_advice"], "")
 
     def test_post_processing_requires_evidence_binding_for_deductions(self):
         transcript = (

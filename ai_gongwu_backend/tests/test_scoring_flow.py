@@ -1,11 +1,13 @@
 """评分流程与阶段 0 违规检测测试。"""
 
+import importlib
 import sys
 import types
 import unittest
 
 from app.models.schemas import EvidenceExtractionPayload, LLMGenerationResult, QuestionDefinition
 from app.services.scoring.prompts import (
+    build_answer_revision_prompt,
     build_evidence_scoring_prompt,
     build_violation_check_prompt,
 )
@@ -21,7 +23,8 @@ class _StubImportedEvaluationStore:
 
 
 stub_evaluation_store_module.EvaluationStore = _StubImportedEvaluationStore
-sys.modules.setdefault("app.services.evaluation_store", stub_evaluation_store_module)
+_ORIGINAL_EVALUATION_STORE_MODULE = sys.modules.get("app.services.evaluation_store")
+sys.modules["app.services.evaluation_store"] = stub_evaluation_store_module
 
 from app.services.flow import InterviewFlowService
 
@@ -177,6 +180,15 @@ class ScoringFlowViolationTestCase(unittest.TestCase):
             },
         )
 
+    def _build_revision_response(
+        self,
+        suggestion: str = "建议压缩空泛铺垫，先亮明观点，再补一层具体措施和岗位化落点。",
+    ) -> LLMGenerationResult:
+        return LLMGenerationResult(
+            raw_content=f'{{"answer_revision_suggestion": "{suggestion}"}}',
+            parsed_payload={"answer_revision_suggestion": suggestion},
+        )
+
     def test_violation_prompt_mentions_context_rules_examples_and_json_contract(self):
         prompt = build_violation_check_prompt(
             self.question,
@@ -254,6 +266,7 @@ class ScoringFlowViolationTestCase(unittest.TestCase):
                 self._build_non_violation_response(),
                 self._build_evidence_response(),
                 self._build_scoring_response(),
+                self._build_revision_response(),
             ]
         )
         service = InterviewFlowService(
@@ -274,7 +287,8 @@ class ScoringFlowViolationTestCase(unittest.TestCase):
         self.assertFalse(result.violation_detected)
         self.assertGreater(result.total_score, 0.0)
         self.assertEqual(result.violation_terms, [])
-        self.assertEqual(len(llm_client.calls), 3)
+        self.assertTrue(result.answer_revision_suggestion)
+        self.assertEqual(len(llm_client.calls), 4)
 
     def test_stage_zero_failure_fails_open_and_continues_to_normal_scoring(self):
         llm_client = StubLLMClient(
@@ -282,6 +296,7 @@ class ScoringFlowViolationTestCase(unittest.TestCase):
                 None,
                 self._build_evidence_response(),
                 self._build_scoring_response(),
+                self._build_revision_response(),
             ]
         )
         service = InterviewFlowService(
@@ -298,9 +313,65 @@ class ScoringFlowViolationTestCase(unittest.TestCase):
 
         self.assertFalse(result.violation_detected)
         self.assertGreater(result.total_score, 0.0)
-        self.assertEqual(len(llm_client.calls), 3)
+        self.assertEqual(len(llm_client.calls), 4)
         self.assertTrue(
             any("阶段 0 违规检测失败，已放行继续评分。" in note for note in result.validation_notes)
+        )
+
+    def test_answer_revision_prompt_contains_scoring_and_speech_rate_context(self):
+        prompt = build_answer_revision_prompt(
+            self.question,
+            self._mock_final_result_for_prompt(),
+        )
+
+        self.assertIn('"speech_rate_level": "偏快"', prompt)
+        self.assertIn('"deduction_details"', prompt)
+        self.assertIn('"answer_revision_suggestion"', prompt)
+
+    def test_answer_revision_generation_failure_does_not_break_main_flow(self):
+        llm_client = StubLLMClient(
+            responses=[
+                self._build_non_violation_response(),
+                self._build_evidence_response(),
+                self._build_scoring_response(),
+                None,
+            ]
+        )
+        service = InterviewFlowService(
+            llm_client=llm_client,
+            question_bank=StubQuestionBank(self.question),
+            evaluation_store=StubEvaluationStore(),
+        )
+
+        result = service.evaluate_text_only(
+            question_id=self.question.id,
+            text_content="要把废物利用变成资源循环，肯定不能走后门，还要把措施讲得更具体。",
+            persist=False,
+        )
+
+        self.assertGreater(result.total_score, 0.0)
+        self.assertEqual(result.answer_revision_suggestion, "")
+        self.assertTrue(any("答案改动建议生成失败，已跳过" in note for note in result.validation_notes))
+
+    def _mock_final_result_for_prompt(self):
+        from app.models.schemas import EvaluationResult
+
+        return EvaluationResult(
+            question_id=self.question.id,
+            question_type=self.question.type,
+            transcript="这是一段测试作答文本。",
+            source="video",
+            source_filename="demo.mp4",
+            duration_seconds=30.0,
+            dimension_scores={"现象解读": 3.5, "对策建议": 3.0},
+            deduction_details=["分析还不够深入"],
+            bonus_details=["结构较完整"],
+            evidence_quotes=["这是一段测试作答文本"],
+            rationale="整体结构尚可，但细节不够具体。",
+            total_score=6.5,
+            speech_rate_chars_per_minute=360.0,
+            speech_rate_level="偏快",
+            speech_rate_advice="建议适当放慢语速，给关键词和层次留出停顿，避免信息堆叠过快。",
         )
 
     def test_interpersonal_scoring_prompt_mentions_basic_pass_guardrail(self):
@@ -332,3 +403,9 @@ class ScoringFlowViolationTestCase(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+if _ORIGINAL_EVALUATION_STORE_MODULE is not None:
+    sys.modules["app.services.evaluation_store"] = _ORIGINAL_EVALUATION_STORE_MODULE
+else:
+    sys.modules.pop("app.services.evaluation_store", None)
+importlib.invalidate_caches()

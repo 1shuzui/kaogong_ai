@@ -6,6 +6,9 @@ import sys
 import types
 import unittest
 from unittest.mock import patch
+import wave
+from pathlib import Path
+import uuid
 
 from app.core.config import settings
 from app.services.media.audio_transcriber import (
@@ -15,12 +18,23 @@ from app.services.media.audio_transcriber import (
     _WHISPER_MODEL_CACHE,
     get_transcriber,
 )
+from app.services.media.video_processor import get_audio_duration_seconds, process_audio
 
 
 class AudioTranscriberTestCase(unittest.TestCase):
     def setUp(self):
         _WHISPER_MODEL_CACHE.clear()
         _FUNASR_MODEL_CACHE.clear()
+        self.temp_root = Path.cwd() / "storage" / "test_audio_transcriber"
+        self.temp_root.mkdir(parents=True, exist_ok=True)
+        self.created_paths: list[Path] = []
+
+    def tearDown(self):
+        for path in self.created_paths:
+            try:
+                path.unlink(missing_ok=True)
+            except OSError:
+                pass
 
     def test_get_transcriber_returns_whisper(self):
         with patch.object(WhisperLocalTranscriber, "_load_model") as mock_load:
@@ -61,6 +75,44 @@ class AudioTranscriberTestCase(unittest.TestCase):
             text = transcriber.transcribe("dummy.wav")
 
         self.assertEqual(text, "你好，世界")
+
+    def test_get_audio_duration_seconds_for_wav(self):
+        wav_path = self.temp_root / f"duration_{uuid.uuid4().hex}.wav"
+        self.created_paths.append(wav_path)
+        with wave.open(str(wav_path), "wb") as wav_file:
+            wav_file.setnchannels(1)
+            wav_file.setsampwidth(2)
+            wav_file.setframerate(16000)
+            wav_file.writeframes(b"\x00\x00" * 16000)
+
+        duration = get_audio_duration_seconds(str(wav_path))
+
+        self.assertIsNotNone(duration)
+        assert duration is not None
+        self.assertAlmostEqual(duration, 1.0, places=2)
+
+    def test_process_audio_includes_duration_seconds(self):
+        class StubTranscriber:
+            def transcribe(self, audio_path: str, language=None) -> str:
+                del audio_path, language
+                return "这是一段音频作答"
+
+        wav_path = self.temp_root / f"process_audio_{uuid.uuid4().hex}.wav"
+        self.created_paths.append(wav_path)
+        with wave.open(str(wav_path), "wb") as wav_file:
+            wav_file.setnchannels(1)
+            wav_file.setsampwidth(2)
+            wav_file.setframerate(16000)
+            wav_file.writeframes(b"\x00\x00" * 8000)
+
+        with patch("app.services.media.video_processor.get_transcriber", return_value=StubTranscriber()):
+            result = process_audio(str(wav_path))
+
+        self.assertEqual(result.source, "audio")
+        self.assertEqual(result.transcript, "这是一段音频作答")
+        self.assertIsNotNone(result.duration_seconds)
+        assert result.duration_seconds is not None
+        self.assertAlmostEqual(result.duration_seconds, 0.5, places=2)
 
 
 if __name__ == "__main__":
