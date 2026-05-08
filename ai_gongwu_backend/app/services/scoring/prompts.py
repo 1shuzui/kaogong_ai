@@ -2,7 +2,7 @@
 
 import json
 
-from app.models.schemas import EvidenceExtractionPayload, QuestionDefinition
+from app.models.schemas import EvidenceExtractionPayload, EvaluationResult, QuestionDefinition
 
 VIOLATION_CHECK_SYSTEM_MESSAGE = (
     "你是一个严格但重视上下文的违规内容检测引擎。"
@@ -20,6 +20,12 @@ EVIDENCE_EXTRACTION_SYSTEM_MESSAGE = (
 EVIDENCE_SCORING_SYSTEM_MESSAGE = (
     "你是一个严格的结构化评分引擎。"
     "你只能基于给定证据包打分，不能自行补充证据。"
+    "只输出合法 JSON。"
+)
+
+ANSWER_REVISION_SYSTEM_MESSAGE = (
+    "你是一个严格的结构化答题改进教练。"
+    "你要根据给定评分结果，为考生生成一段可直接执行的答案修改建议。"
     "只输出合法 JSON。"
 )
 
@@ -334,6 +340,57 @@ def build_evidence_scoring_prompt(
   ],
   "rationale": "整体评分理由",
   "total_score": 0
+}}
+"""
+    return prompt.strip()
+
+
+def build_answer_revision_prompt(
+    question: QuestionDefinition,
+    final_result: EvaluationResult,
+) -> str:
+    """根据最终评分结果生成答案改动建议。"""
+
+    payload = {
+        "question_id": question.id,
+        "question_type": question.type,
+        "question": question.question,
+        "full_score": question.fullScore,
+        "dimension_scores": final_result.dimension_scores,
+        "deduction_details": final_result.deduction_details,
+        "bonus_details": final_result.bonus_details,
+        "evidence_quotes": final_result.evidence_quotes,
+        "rationale": final_result.rationale,
+        "total_score": final_result.total_score,
+        "speech_rate_chars_per_minute": final_result.speech_rate_chars_per_minute,
+        "speech_rate_level": final_result.speech_rate_level,
+        "speech_rate_advice": final_result.speech_rate_advice,
+        "transcript": final_result.transcript,
+    }
+
+    prompt = f"""
+# 角色
+你现在是“面试答案改写教练”。
+你的任务不是重新打分，而是基于已有评分结果，为考生输出一段具体、可执行、可直接照着改的修改建议。
+
+# 输出目标
+1. 明确指出当前答案最该优先改的 2-4 个问题。
+2. 说明这些问题分别应该怎么改，尽量写成“删什么、补什么、怎么换结构、怎么优化表达”。
+3. 如果语速不是“正常”，要自然融入语速优化建议。
+4. 建议必须面向下一次作答，强调可执行性，不要空泛鼓励。
+
+# 约束
+1. 只基于给定结果输出，不要杜撰新事实。
+2. 不要重复整段评分理由，不要逐条复述原始证据。
+3. 只输出一段完整中文建议，长度控制在 120-260 字。
+4. 语气要直接、专业、可操作。
+
+# 已有评分结果
+{json.dumps(payload, ensure_ascii=False, indent=2)}
+
+# JSON Schema
+{{
+  "answer_revision_suggestion": "建议内容"
 }}
 """
     return prompt.strip()

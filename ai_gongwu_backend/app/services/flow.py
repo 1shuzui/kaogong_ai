@@ -29,12 +29,15 @@ from app.services.question_bank import QuestionBank
 from app.services.scoring.calculator import (
     apply_post_processing,
     build_deterministic_stage_two_payload,
+    compute_speech_rate_feedback,
     prepare_evidence_packet,
 )
 from app.services.scoring.prompts import (
+    ANSWER_REVISION_SYSTEM_MESSAGE,
     VIOLATION_CHECK_SYSTEM_MESSAGE,
     EVIDENCE_EXTRACTION_SYSTEM_MESSAGE,
     EVIDENCE_SCORING_SYSTEM_MESSAGE,
+    build_answer_revision_prompt,
     build_violation_check_prompt,
     build_evidence_extraction_prompt,
     build_evidence_scoring_prompt,
@@ -200,6 +203,7 @@ class InterviewFlowService:
             transcript=extraction_result.transcript,
             source=extraction_result.source,
             source_filename=extraction_result.source_filename,
+            duration_seconds=extraction_result.duration_seconds,
             visual_observation=extraction_result.visual_observation,
             rationale=reason,
             total_score=0.0,
@@ -222,6 +226,56 @@ class InterviewFlowService:
         if suffix in settings.SUPPORTED_AUDIO_EXTENSIONS:
             return process_audio(file_path)
         raise ValueError(f"不支持的媒体格式: {suffix or '无后缀'}")
+
+    def _apply_media_insights(
+        self,
+        *,
+        final_result: EvaluationResult,
+        extraction_result: MediaExtractionResult,
+    ) -> EvaluationResult:
+        """补充媒体时长与语速分析结果。"""
+
+        speech_rate_feedback = compute_speech_rate_feedback(
+            transcript=extraction_result.transcript,
+            source=extraction_result.source,
+            duration_seconds=extraction_result.duration_seconds,
+        )
+        return final_result.model_copy(
+            update={
+                "source": extraction_result.source,
+                "source_filename": extraction_result.source_filename,
+                "duration_seconds": extraction_result.duration_seconds,
+                **speech_rate_feedback,
+            }
+        )
+
+    def _generate_answer_revision_suggestion(
+        self,
+        *,
+        question,
+        final_result: EvaluationResult,
+    ) -> tuple[str, str, dict]:
+        """在评分后生成答案改动建议，失败时只返回空值。"""
+
+        if self.llm_client.client is None:
+            return "", "", {"status": "skipped", "reason": "llm_unavailable"}
+
+        revision_prompt = build_answer_revision_prompt(
+            question=question,
+            final_result=final_result,
+        )
+        revision_generation = self.llm_client.generate(
+            revision_prompt,
+            system_message=ANSWER_REVISION_SYSTEM_MESSAGE,
+        )
+        if revision_generation is None:
+            return "", revision_prompt, {"status": "failed", "error": "llm_generation_failed"}
+
+        return (
+            str(revision_generation.parsed_payload.get("answer_revision_suggestion", "")).strip(),
+            revision_prompt,
+            revision_generation.parsed_payload,
+        )
 
     def _execute_evaluation_core(
         self,
@@ -277,6 +331,7 @@ class InterviewFlowService:
                         source=extraction_result.source,
                         source_filename=extraction_result.source_filename,
                         transcript=extraction_result.transcript,
+                        duration_seconds=extraction_result.duration_seconds,
                         visual_observation=extraction_result.visual_observation,
                         prompt_text=json.dumps(
                             {
@@ -400,12 +455,20 @@ class InterviewFlowService:
             visual_observation=extraction_result.visual_observation,
             extra_validation_notes=evidence_notes,
         )
-        final_result = final_result.model_copy(
-            update={
-                "source": extraction_result.source,
-                "source_filename": extraction_result.source_filename,
-            }
+        final_result = self._apply_media_insights(
+            final_result=final_result,
+            extraction_result=extraction_result,
         )
+        revision_suggestion, revision_prompt, revision_payload = self._generate_answer_revision_suggestion(
+            question=question,
+            final_result=final_result,
+        )
+        if revision_suggestion:
+            final_result = final_result.model_copy(
+                update={"answer_revision_suggestion": revision_suggestion}
+            )
+        else:
+            final_result.validation_notes.append("答案改动建议生成失败，已跳过")
 
         if not persist:
             return final_result
@@ -416,12 +479,14 @@ class InterviewFlowService:
             source=extraction_result.source,
             source_filename=extraction_result.source_filename,
             transcript=extraction_result.transcript,
+            duration_seconds=extraction_result.duration_seconds,
             visual_observation=extraction_result.visual_observation,
             prompt_text=json.dumps(
                 {
                     "stage_zero_prompt": violation_prompt,
                     "stage_one_prompt": evidence_prompt,
                     "stage_two_prompt": scoring_prompt,
+                    "answer_revision_prompt": revision_prompt,
                 },
                 ensure_ascii=False,
             ),
@@ -432,6 +497,7 @@ class InterviewFlowService:
                     "stage_zero_raw": violation_raw_content,
                     "stage_one_raw": evidence_raw_content,
                     "stage_two_raw": scoring_generation.raw_content,
+                    "answer_revision_raw": revision_payload,
                 },
                 ensure_ascii=False,
             ),
@@ -441,6 +507,7 @@ class InterviewFlowService:
                 "stage_one": evidence_raw_payload,
                 "validated_evidence": evidence_packet.model_dump(mode="json"),
                 "stage_two": scoring_generation.parsed_payload,
+                "answer_revision": revision_payload,
             },
             final_result=final_result,
         )
@@ -489,12 +556,20 @@ class InterviewFlowService:
             visual_observation=extraction_result.visual_observation,
             extra_validation_notes=evidence_notes,
         )
-        final_result = final_result.model_copy(
-            update={
-                "source": extraction_result.source,
-                "source_filename": extraction_result.source_filename,
-            }
+        final_result = self._apply_media_insights(
+            final_result=final_result,
+            extraction_result=extraction_result,
         )
+        revision_suggestion, revision_prompt, revision_payload = self._generate_answer_revision_suggestion(
+            question=question,
+            final_result=final_result,
+        )
+        if revision_suggestion:
+            final_result = final_result.model_copy(
+                update={"answer_revision_suggestion": revision_suggestion}
+            )
+        else:
+            final_result.validation_notes.append("答案改动建议生成失败，已跳过")
 
         if not persist:
             return final_result
@@ -505,12 +580,14 @@ class InterviewFlowService:
             source=extraction_result.source,
             source_filename=extraction_result.source_filename,
             transcript=extraction_result.transcript,
+            duration_seconds=extraction_result.duration_seconds,
             visual_observation=extraction_result.visual_observation,
             prompt_text=json.dumps(
                 {
                     "stage_zero_prompt": violation_prompt,
                     "stage_one_prompt": evidence_prompt,
                     "stage_two_prompt": scoring_prompt,
+                    "answer_revision_prompt": revision_prompt,
                     "deterministic_fallback": True,
                 },
                 ensure_ascii=False,
@@ -523,6 +600,7 @@ class InterviewFlowService:
                     "stage_one_raw": evidence_raw_content,
                     "stage_two_raw": "",
                     "deterministic_stage_two": deterministic_payload,
+                    "answer_revision_raw": revision_payload,
                 },
                 ensure_ascii=False,
             ),
@@ -532,6 +610,7 @@ class InterviewFlowService:
                 "stage_one": evidence_raw_payload or {},
                 "validated_evidence": evidence_packet.model_dump(mode="json"),
                 "stage_two": deterministic_payload,
+                "answer_revision": revision_payload,
                 "deterministic_fallback": True,
             },
             final_result=final_result,
@@ -585,6 +664,7 @@ class InterviewFlowService:
                 transcript=text_content.strip(),
                 source="text",
                 source_filename=source_filename,
+                duration_seconds=None,
                 visual_observation=None,
             ),
             persist=persist,

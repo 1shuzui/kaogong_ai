@@ -23,6 +23,9 @@ from .keyword_matcher import match_all_categories
 
 logger = logging.getLogger(__name__)
 
+SPEECH_RATE_SLOW_THRESHOLD = 180.0
+SPEECH_RATE_FAST_THRESHOLD = 320.0
+
 ORAL_EXPRESSION_PHRASES = (
     "我觉得",
     "你想啊",
@@ -157,6 +160,54 @@ ENGLISH_DIMENSION_ALIAS_HINTS = {
 
 def _effective_text_length(text: str) -> int:
     return len(re.sub(r"\s+", "", text))
+
+
+def compute_speech_rate_feedback(
+    *,
+    transcript: str,
+    source: str,
+    duration_seconds: float | None,
+) -> dict[str, Any]:
+    """基于真实媒体时长计算语速与建议。"""
+
+    if source not in {"audio", "video"}:
+        return {
+            "speech_rate_chars_per_minute": None,
+            "speech_rate_level": None,
+            "speech_rate_advice": "",
+        }
+
+    if duration_seconds is None or duration_seconds <= 0:
+        return {
+            "speech_rate_chars_per_minute": None,
+            "speech_rate_level": None,
+            "speech_rate_advice": "",
+        }
+
+    effective_chars = _effective_text_length(transcript)
+    if effective_chars <= 0:
+        return {
+            "speech_rate_chars_per_minute": 0.0,
+            "speech_rate_level": None,
+            "speech_rate_advice": "",
+        }
+
+    chars_per_minute = round(effective_chars / duration_seconds * 60.0, 1)
+    if chars_per_minute < SPEECH_RATE_SLOW_THRESHOLD:
+        level = "偏慢"
+        advice = "适当加快表达节奏，减少过长停顿，保证观点推进更紧凑。"
+    elif chars_per_minute > SPEECH_RATE_FAST_THRESHOLD:
+        level = "偏快"
+        advice = "建议适当放慢语速，给关键词和层次留出停顿，避免信息堆叠过快。"
+    else:
+        level = "正常"
+        advice = "当前语速整体正常，继续保持表达清晰和节奏稳定即可。"
+
+    return {
+        "speech_rate_chars_per_minute": chars_per_minute,
+        "speech_rate_level": level,
+        "speech_rate_advice": advice,
+    }
 
 
 def _to_float(value: Any, default: float = 0.0) -> float:

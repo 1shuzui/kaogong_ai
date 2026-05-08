@@ -35,6 +35,7 @@ class EvaluationRecord(Base):
     question_type: Mapped[str] = mapped_column(String(255), nullable=False, default="")
     source: Mapped[str] = mapped_column(String(16), index=True, nullable=False)
     source_filename: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    duration_seconds: Mapped[float | None] = mapped_column(Float, nullable=True)
     total_score: Mapped[float] = mapped_column(Float, index=True, nullable=False)
     transcript: Mapped[str] = mapped_column(Text, nullable=False)
     visual_observation: Mapped[str | None] = mapped_column(Text, nullable=True)

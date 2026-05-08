@@ -1,7 +1,8 @@
 """测评落库测试。"""
 
-import tempfile
+import shutil
 import unittest
+import uuid
 from pathlib import Path
 
 from sqlalchemy import create_engine
@@ -16,8 +17,9 @@ class EvaluationStoreTestCase(unittest.TestCase):
     """验证测评记录能够正常写入和读取。"""
 
     def setUp(self):
-        self.temp_dir = tempfile.TemporaryDirectory()
-        database_path = Path(self.temp_dir.name) / "test.db"
+        self.temp_dir = Path.cwd() / "storage" / f"test_evaluation_store_{uuid.uuid4().hex}"
+        self.temp_dir.mkdir(parents=True, exist_ok=True)
+        database_path = self.temp_dir / "test.db"
         engine = create_engine(
             f"sqlite:///{database_path}",
             connect_args={"check_same_thread": False},
@@ -32,7 +34,7 @@ class EvaluationStoreTestCase(unittest.TestCase):
         self.store = EvaluationStore(session_factory=self.session_factory)
 
     def tearDown(self):
-        self.temp_dir.cleanup()
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
 
     def test_save_and_query_record(self):
         final_result = EvaluationResult(
@@ -41,6 +43,7 @@ class EvaluationStoreTestCase(unittest.TestCase):
             transcript="考生作答内容",
             source="text",
             source_filename="26分.txt",
+            duration_seconds=None,
             visual_observation=None,
             dimension_scores={"现象解读": 6.0},
             deduction_details=["未充分结合岗位"],
@@ -49,6 +52,10 @@ class EvaluationStoreTestCase(unittest.TestCase):
             rationale="整体作答较完整。",
             total_score=20.0,
             matched_keywords={"strong": ["形式主义"]},
+            speech_rate_chars_per_minute=None,
+            speech_rate_level=None,
+            speech_rate_advice="",
+            answer_revision_suggestion="建议先压缩开头铺垫，再补一层岗位化落点。",
             validation_notes=["模型未提供足够证据。"],
         )
 
@@ -58,6 +65,7 @@ class EvaluationStoreTestCase(unittest.TestCase):
             source="text",
             source_filename="26分.txt",
             transcript="考生作答内容",
+            duration_seconds=None,
             visual_observation=None,
             prompt_text="prompt",
             llm_provider="QWEN",
@@ -80,6 +88,7 @@ class EvaluationStoreTestCase(unittest.TestCase):
         self.assertEqual(detail.final_result.record_id, enriched.record_id)
         self.assertEqual(detail.final_result.total_score, 20.0)
         self.assertEqual(detail.raw_llm_payload["total_score"], 20)
+        self.assertEqual(detail.final_result.answer_revision_suggestion, "建议先压缩开头铺垫，再补一层岗位化落点。")
 
 
 if __name__ == "__main__":

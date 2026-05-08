@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.orm import sessionmaker
 
 from app.core.config import settings
@@ -32,7 +32,31 @@ engine = create_engine(
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)
 
 
+def _upgrade_sqlite_schema() -> None:
+    """对已存在的 SQLite 表做轻量增列迁移。"""
+
+    if not DATABASE_URL.startswith("sqlite"):
+        return
+
+    inspector = inspect(engine)
+    if "evaluation_records" not in inspector.get_table_names():
+        return
+
+    existing_columns = {
+        column["name"]
+        for column in inspector.get_columns("evaluation_records")
+    }
+    if "duration_seconds" in existing_columns:
+        return
+
+    with engine.begin() as connection:
+        connection.execute(
+            text("ALTER TABLE evaluation_records ADD COLUMN duration_seconds FLOAT")
+        )
+
+
 def init_database() -> None:
     """初始化数据库表结构。"""
 
     Base.metadata.create_all(bind=engine)
+    _upgrade_sqlite_schema()

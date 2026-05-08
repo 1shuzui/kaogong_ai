@@ -114,6 +114,9 @@ class MediaExtractionResult(BaseModel):
     # source_filename 保留用户上传时的原始文件名，便于后续审计或排错
     source_filename: Optional[str] = None
 
+    # duration_seconds 记录真实媒体时长，文本提交通道没有该值
+    duration_seconds: Optional[float] = Field(default=None, ge=0)
+
     # visual_observation 只用于“表达状态”弱补充，不作为内容事实来源
     visual_observation: Optional[str] = None
 
@@ -225,6 +228,7 @@ class EvaluationResult(LLMEvaluationPayload):
     transcript: str
     source: Literal["text", "audio", "video"] = "text"
     source_filename: Optional[str] = None
+    duration_seconds: Optional[float] = Field(default=None, ge=0)
     visual_observation: Optional[str] = None
     record_id: Optional[int] = None
     evaluated_at: Optional[datetime] = None
@@ -242,6 +246,14 @@ class EvaluationResult(LLMEvaluationPayload):
     violation_category: str = ""
     violation_reason: str = ""
     violation_terms: List[str] = Field(default_factory=list)
+
+    # 语速相关字段仅在真实媒体提交时可用
+    speech_rate_chars_per_minute: Optional[float] = Field(default=None, ge=0)
+    speech_rate_level: Optional[str] = None
+    speech_rate_advice: str = ""
+
+    # 针对本次答案的后续改动建议
+    answer_revision_suggestion: str = ""
 
     # validation_notes 会记录系统对模型输出做过哪些修正
     validation_notes: List[str] = Field(default_factory=list)
@@ -318,6 +330,7 @@ class EvaluationRecordDetail(BaseModel):
     question_type: str = ""
     source: str
     source_filename: Optional[str] = None
+    duration_seconds: Optional[float] = Field(default=None, ge=0)
     total_score: float
     transcript: str
     visual_observation: Optional[str] = None

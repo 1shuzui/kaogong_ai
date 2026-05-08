@@ -26,7 +26,7 @@
 
 ## 2. 当前状态
 
-截至 2026-04-12，项目已经完成这些核心能力：
+截至 2026-05-08，项目已经完成这些核心能力：
 
 1. FastAPI 接口可提供文本、音频、视频测评。
 2. 题库支持目录式多题加载，不再局限单题。
@@ -48,6 +48,9 @@
    - `writeback` 回写 `llmExpectedMin/Max` 能力
 9. 湖南自动导入样本已按 `analysis / organization / interpersonal / scene` 四类题型分别生成中低档模板。
 10. `--writeback` 已收紧为“只允许稳定题回写”，当前保留 3 道已确认稳定题的保护区间，其余题目继续走子集回归后再决定是否升级。
+11. 语速已从 mock 改为真实时长计算，并增加固定区间判定与硬性建议文案。
+12. 评分完成后会额外生成一轮“答案改动建议”，失败时不阻断主评分。
+13. `evaluation_records` 已补 `duration_seconds`，接口返回、落库和记录回查都同步了新增字段。
 
 当前仓库内除了手工题库外，还包含湖南 / 安徽两套自动生成题库：
 
@@ -213,6 +216,7 @@ ai_interview/
 2. 两阶段证据结构
 3. 评分结果结构
 4. 题目分档与回归样本结构
+5. `duration_seconds`、语速字段、`answer_revision_suggestion`
 
 当前题库回归相关字段主要是：
 
@@ -227,7 +231,8 @@ Prompt 构造层，负责：
 
 1. 第一阶段证据抽取 Prompt
 2. 第二阶段证据约束评分 Prompt
-3. 按题目动态生成本土化 / 岗位化提示，不再写死河南模板
+3. 评分后“答案改动建议” Prompt
+4. 按题目动态生成本土化 / 岗位化提示，不再写死河南模板
 
 ### 6.4 [calculator.py](/home/quyu/ai_interview/ai_gongwu_backend/app/services/scoring/calculator.py)
 
@@ -238,6 +243,7 @@ Prompt 构造层，负责：
 3. 理由与证据绑定校验
 4. 分数收敛和排序校准
 5. 规则型兜底评分
+6. 语速判定与硬性建议文案
 
 ---
 
@@ -295,15 +301,24 @@ npm install
 建议在 [ai_gongwu_backend](/home/quyu/ai_interview/ai_gongwu_backend) 下准备 `.env`：
 
 ```env
-LLM_PROVIDER=QWEN
-LLM_API_KEY=你的密钥
-LLM_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
-LLM_MODEL_NAME=qwen3-coder-plus
+LLM_PROVIDER=DEEPSEEK
+LLM_API_KEY=你的 DeepSeek 密钥
+LLM_BASE_URL=https://api.deepseek.com
+LLM_MODEL_NAME=deepseek-v4-flash
 
 QUESTION_DB_PATH=assets/questions
+ASR_PROVIDER=whisper
+ASR_DEVICE=cpu
 WHISPER_MODEL_SIZE=base
 WHISPER_CPU_THREADS=4
 WHISPER_LANGUAGE=zh
+FUNASR_MODEL_NAME=paraformer-zh
+FUNASR_MODEL_REVISION=v2.0.4
+FUNASR_VAD_MODEL_NAME=fsmn-vad
+FUNASR_VAD_MODEL_REVISION=v2.0.4
+FUNASR_PUNC_MODEL_NAME=ct-punc
+FUNASR_PUNC_MODEL_REVISION=v2.0.4
+MODELSCOPE_CACHE=storage/modelscope_cache
 ENABLE_VISUAL_ANALYSIS=true
 
 MIN_VALID_WORDS=15
@@ -316,6 +331,7 @@ MAX_RATIONALE_CHARS=400
 
 1. `QUESTION_DB_PATH` 现在默认应指向目录，而不是单个题目文件。
 2. 若未配置 `LLM_API_KEY`，系统会回退到确定性评分兜底。
+3. `ASR_PROVIDER` 当前支持 `whisper` 和 `funasr`，需要对比实验时直接切换即可。
 
 ---
 
@@ -521,11 +537,19 @@ cd /home/quyu/ai_interview/ai_gongwu_backend
 /home/quyu/ai_interview/.venv/bin/python scripts/run_llm_regression.py --repeat 3 --writeback
 ```
 
+### 10.5 跑 ASR 小批量基准
+
+```bash
+cd /home/quyu/ai_interview/ai_gongwu_backend
+./venv/bin/python scripts/benchmark_asr.py
+```
+
 说明：
 
 1. `--repeat 3` 用多次采样中位数抵消单次模型波动。
 2. `--writeback` 现在只会对“高 / 中 / 低三档都通过、排序正确、波动可接受”的稳定题目回写 `llmExpectedMin/Max`。
 3. 真正批量标定前，建议先用 `--question-id` 跑小子集。
+4. `benchmark_asr.py` 会对 `Whisper` 和 `FunASR` 各做一次 warm-up，再对 3 条小样本输出 `reports/asr/` 对比报告。
 
 ---
 
